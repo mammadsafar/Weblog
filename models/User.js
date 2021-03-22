@@ -12,9 +12,10 @@ const userSchema = new mongoose.Schema({
         validate(value) {
             let reg = /^[a-z]{3,30}$/g;
             if (!reg.test(value)) {
-                throw new Error("firstName should be have a-z ang be between 3 and 30.");
+                throw new Error("firstName should be have a-z and be between 3 and 30.");
             }
-        }
+        },
+        default: 'No'
     },
     lastname: {
         ...essentialSchema,
@@ -22,9 +23,10 @@ const userSchema = new mongoose.Schema({
         validate(value) {
             let reg = /^[a-z]{3,30}$/g;
             if (!reg.test(value)) {
-                throw new Error("firstName should be have a-z ang be between 3 and 30.");
+                throw new Error("firstName should be have a-z and be between 3 and 30.");
             }
-        }
+        },
+        default: 'Body'
     },
     username: {
         ...essentialSchema,
@@ -40,11 +42,18 @@ const userSchema = new mongoose.Schema({
     password: {
         ...essentialSchema,
         required: true,
+        validate(value) {
+            let reg = /{8,20}$/g;
+            if (!reg.test(value)) {
+                throw new Error("password should be between 8 and 20 characters.");
+            }
+        }
 
     },
     sex: {
         ...essentialSchema,
-        enum: ['male', 'female', 'other']
+        enum: ['male', 'female', 'other'],
+        default: 'male'
     },
     email: {
         ...essentialSchema,
@@ -53,7 +62,8 @@ const userSchema = new mongoose.Schema({
             if (!reg.test(value)) {
                 throw new Error("Email address not valid.");
             }
-        }
+        },
+        default: 'NoBody@email.com'
 
     },
     phone_number: {
@@ -61,9 +71,10 @@ const userSchema = new mongoose.Schema({
         validate(value) {
             let reg = /^[0-9+]{10,15}$/g;
             if (!reg.test(value)) {
-                throw new Error("firstName should be have a-z ang be between 3 and 30.");
+                throw new Error("number should be between 10 and 15 character.");
             }
-        }
+        },
+        default: '09000000000'
     },
     createAt: {
         type: Date,
@@ -78,18 +89,18 @@ const userSchema = new mongoose.Schema({
         enum: ['admin', 'blogger'],
         defaul: 'blogger'
     },
-    picture:{
+    profile_pic: {
         ...essentialSchema,
         default: ' ../public/images/profile/default.png'
     }
 })
 
-userSchema.pre('save', function(next) {
+userSchema.pre('save', function (next) {
     const user = this;
     if (this.isNew || this.isModified('password')) {
-        bcrypt.genSalt(10, function(err, salt) {
+        bcrypt.genSalt(10, function (err, salt) {
             if (err) return next(err);
-            bcrypt.hash(user.password, salt, function(err, hash) {
+            bcrypt.hash(user.password, salt, function (err, hash) {
                 if (err) return next(err);
                 user.password = hash;
                 return next();
