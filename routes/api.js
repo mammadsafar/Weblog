@@ -1,12 +1,23 @@
 const express = require('express');
 const router = express.Router();
 const register = require('../controller/register')
-// const home = require('')
-// /* GET home page. */
-// router.get('/', function(req, res, next) {
-//   res.render('index', { title: 'Express' });
-// });
+const login = require('../controller/login')
+const logout = require('../controller/logout');
+const userData = require('../controller/userData');
+const dashboard = require('../controller/dashboard');
+const generalTools = require('../tools/general-tools');
 
+
+// ? ---------------------------------< Register >---------------------------- 
+router.use('/register', register);
+// ? ---------------------------------< Login >---------------------------- 
+router.use('/login', login);
+// ? ---------------------------------< Logout >---------------------------- 
+router.use('/logout', logout);
+// ? ---------------------------------< Dashboard >---------------------------- 
+router.use('/dashboard', generalTools.loginChecker, dashboard);
+// ? ---------------------------------< ger data user >---------------------------- 
+router.use('/userData', userData);
 
 router.use('/', (req, res)=>{
   res.render('home')
@@ -19,8 +30,6 @@ router.use('/about', (req, res)=>{
 });
 
 
-// ? ---------------------------------< Use Register >---------------------------- 
-router.use('/register', register);
 
 
 module.exports = router;

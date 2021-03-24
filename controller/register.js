@@ -4,7 +4,7 @@ const router = express.Router();
 
 const {
     registerPage,
-    addUser,
+    createUser,
     getAllUser,
     deletUser,
     UpdateUser,
@@ -20,11 +20,11 @@ router.post('/createUser', function(req, res, next) {
 
 console.log(123432);
 router.get('/', registerPage);
-router.post('/', addUser);
+router.post('/', createUser);
 router.get('/getAllUser', getAllUser);
-router.delete('/:userName', deletUser);
-router.put('/pass:userName', UpdatePass);
-router.put('/:userName', UpdateUser);
+router.delete('/:username', deletUser);
+router.put('/pass:username', UpdatePass);
+router.put('/:username', UpdateUser);
 
 
 

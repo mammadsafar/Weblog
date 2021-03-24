@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+const bcrypt = require('bcrypt');
 const essentialSchema = {
     type: String,
     trim: true,
@@ -8,50 +8,51 @@ const essentialSchema = {
 const userSchema = new mongoose.Schema({
     firstname: {
         ...essentialSchema,
-        lowercase: true,
-        validate(value) {
-            let reg = /^[a-z]{3,30}$/g;
-            if (!reg.test(value)) {
-                throw new Error("firstName should be have a-z and be between 3 and 30.");
-            }
-        },
-        default: 'No'
+        // lowercase: true,
+        // validate(value) {
+        //     let reg = /^[a-z]{3,30}$/g;
+        //     if (!reg.test(value)) {
+        //         throw new Error("firstName should be have a-z and be between 3 and 30.");
+        //     }
+        // },
+        default: 'Mr. No'
     },
     lastname: {
         ...essentialSchema,
-        lowercase: true,
-        validate(value) {
-            let reg = /^[a-z]{3,30}$/g;
-            if (!reg.test(value)) {
-                throw new Error("firstName should be have a-z and be between 3 and 30.");
-            }
-        },
+        // lowercase: true,
+        // validate(value) {
+        //     let reg = /^[a-z]{3,30}$/g;
+        //     if (!reg.test(value)) {
+        //         throw new Error("firstName should be have a-z and be between 3 and 30.");
+        //     }
+        // },
         default: 'Body'
     },
     username: {
         ...essentialSchema,
         unique: true,
         required: true,
-        validate(value) {
-            let reg = /^[a-z0-9 .@_]{4,}$/g;
-            if (!reg.test(value)) {
-                throw new Error("firstName could be have a-z A-Z _@. ang be greater thar 4 characters.");
-            }
-        }
+        // validate(value) {
+        //     let reg = /^[a-z0-9 .@_]{4,}$/g;
+        //     if (!reg.test(value)) {
+        //         throw new Error("firstName could be have a-z A-Z _@. ang be greater thar 4 characters.");
+        //     }
+        // }
     },
     password: {
         ...essentialSchema,
         required: true,
-        validate(value) {
-            let reg = /{8,20}$/g;
-            if (!reg.test(value)) {
-                throw new Error("password should be between 8 and 20 characters.");
-            }
-        }
+        // validate(value) {
+        //     let reg = /{8,20}$/g;
+        //     if (!reg.test(value)) {
+        //         throw new Error("password should be between 8 and 20 characters.");
+        //     }
+        // }
 
     },
     sex: {
         ...essentialSchema,
+        lowercase: true,
         enum: ['male', 'female', 'other'],
         default: 'male'
     },
@@ -86,12 +87,13 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         ...essentialSchema,
+        lowercase: true,
         enum: ['admin', 'blogger'],
         defaul: 'blogger'
     },
     profile_pic: {
         ...essentialSchema,
-        default: ' ../public/images/profile/default.png'
+        default: '/images/profile/default.png'
     }
 })
 
