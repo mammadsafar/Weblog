@@ -3,7 +3,7 @@ $(document).ready(function () {
     $("#login_btn").on('click', () => {
         console.log($("#username").val());
         let user = {
-            username: $("#username").val(),
+            username: $("#email").val(),
             password: $("#password").val()
         }
         $.ajax({
