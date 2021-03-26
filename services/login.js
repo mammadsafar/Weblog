@@ -16,9 +16,20 @@ const loggedInUser = (req, res) => {
         });
     }
 
-    // console.log("2");
+    let search={};
+    if(req.body.username.match(/@/g)){
+        search =  {email: req.body.email }
+    }else{
+        console.log("username");
+        search = { username: req.body.username }
+    }
+
+
+    console.log(search);
+
+
     User.findOne({
-      username: req.body.username
+        ...search
     }, (err, user) => {
         if (err) return res.status(400).json({
             msg: "server error :("
