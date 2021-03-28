@@ -93,7 +93,11 @@ const userSchema = new mongoose.Schema({
     },
     profile_pic: {
         ...essentialSchema,
-        default: '/images/profile/default.png'
+        default: '/images/avatars/default.png'
+    },
+    background_cover: {
+        ...essentialSchema,
+        default: '/images/background_cover/default.jpg'
     }
 })
 

@@ -20,13 +20,8 @@ const loggedInUser = (req, res) => {
     if(req.body.username.match(/@/g)){
         search =  {email: req.body.email }
     }else{
-        console.log("username");
         search = { username: req.body.username }
     }
-
-
-    console.log(search);
-
 
     User.findOne({
         ...search

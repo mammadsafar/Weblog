@@ -1,7 +1,7 @@
 $(document).ready(function () {
 
     $("#login_btn").on('click', () => {
-        console.log($("#username").val());
+        // console.log($("#username").val());
         let user = {
             username: $("#email").val(),
             password: $("#password").val()

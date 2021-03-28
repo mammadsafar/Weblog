@@ -25,15 +25,28 @@ $(document).ready(function () {
         success: function (response) {
             user = response[0];
 
-            console.log(user);
-            
-            $("#picture").attr('src', `${user.profile_pic}`)
-            $("#username").html(`@${user.username}`)
-            $("#fullName").html(`${user.firstname} ${user.lastname}`)
-            $("#email").html(`${user.email}`)
-            $("#gender").html(`${user.sex}`)
-            $("#birthday").html(`${user.createAt}`)
-            $("#phoneNumber").html(`${user.phone_number}`)
+            // console.log(user);
+
+            $("#avatar_show").attr('src', `${user.profile_pic}`)
+            $("#username_show").html(`@${user.username}`)
+            $("#name_show").html(`${user.firstname} ${user.lastname}`)
+            $("#email_show").html(`${user.email}`)
+            $("#gender_show").html(`${user.sex}`)
+            // $("#birthday").html(`${user.createAt}`)
+            $("#phonenumber_show").html(`${user.phone_number}`)
+
+
+            $("#first_name").attr('value', `${user.firstname}`)
+            $("#last_name").attr('value', `${user.lastname}`)
+            $("#email").attr('value', `${user.email}`)
+            $("#phone").attr('value', `${user.phone_number}`)
+
+            $("#gender").attr('value', `${user.profile_pic}`)
+
+
+
+
+
 
 
         },
@@ -205,20 +218,29 @@ $(document).ready(function () {
 
     $("body").on('click', '#update_btn', function () {
 
-        let user = {
-            firstname: $("#first_name_input").val(),
-            lastname: $("#last_name_input").val(),
-            username: $("#username_input").val(),
-            // createdAt: $("#birthday").val(),
-            sex: $("#input_gender").val(),
-            email: $("#email_input").val(),
-            phone_number: $("#phone_input").val(),
+
+
+
+        let gender;
+        if ($("#gender").val() === "gender") {
+            gender = user.sex;
+        } else {
+            gender = $("#gender").val()
         }
-        console.log(user);
+
+        let user_info = {
+            firstname: $("#first_name").val(),
+            lastname: $("#last_name").val(),
+            username: user.username,
+            sex: gender,
+            email: $("#email").val(),
+            phone_number: $("#phone").val(),
+        }
+        console.log(user_info);
         $.ajax({
             type: "PUT",
-            url: `register/${user.username}`,
-            data: user,
+            url: `dashboard/${user.username}`,
+            data: user_info,
             // dataType: "application/json",
             success: function (response) {
                 Swal.fire({
@@ -249,7 +271,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "DELETE",
-            url: `register/${user.username}`,
+            url: `dashboard/${user.username}`,
             // dataType: "application/json",
             success: function (response) {
                 Swal.fire({
@@ -261,7 +283,7 @@ $(document).ready(function () {
                 })
                 logout();
             },
-    
+
             error: function (err) {
                 Swal.fire({
                     position: 'top-end',
@@ -274,41 +296,69 @@ $(document).ready(function () {
         });
 
     })
-    $("body").on('click', '#confirm_pass', function () {
+    $("body").on('click', '#change_pass_btn', function () {
         console.log(123);
-        let pass = {
-            username: user.username,
-            oldPassword: $("#oldPass_input").val(),
-            newPassword: $("#newPass_input").val()
+
+
+
+
+        let new_pass = $("#new_pass");
+        let old_pass = $("#old_pass");
+        let confirm_pass = $("#confirm_pass");
+
+        let array = [new_pass, old_pass, confirm_pass];
+        let array2 = ["new_pass", "old_pass", "confirm_pass"];
+        for (const key in array) {
+            // console.log(key);
+            // console.log(array[key].val());
+
+            if (!array[key].val()) {
+                $(`#${array2[key]}`).attr('class', 'form-control is-invalid')
+                // $(`#${array2[key]}`).css({
+                //     "border-bottom": "2px solid #ff1818",
+                // })
+
+            } else if (array[key].val()) {
+
+                $(`#${array2[key]}`).attr('class', 'form-control')
+
+            }
         }
-        console.log(pass);
-        $.ajax({
-            type: "PUT",
-            url: `register/pass${user.username}`,
-            data: pass,
-            // dataType: "application/json",
-            success: function (response) {
-                Swal.fire({
-                    position: 'top-end',
-                    icon: 'success',
-                    title: 'Cange pass was successfuly',
-                    showConfirmButton: false,
-                    timer: 1500
-                })
-                logout();
-            },
+        if (check_input(array) === true) {
+            let pass = {
+                username: user.username,
+                oldPassword: $("#oldPass_input").val(),
+                newPassword: $("#newPass_input").val()
+            }
+            console.log(pass);
+            $.ajax({
+                type: "PUT",
+                url: `dashboard/pass${user.username}`,
+                data: pass,
+                // dataType: "application/json",
+                success: function (response) {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Cange pass was successfuly',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                    logout();
+                },
 
-            error: function (err) {
-                Swal.fire({
-                    position: 'top-end',
-                    icon: 'error',
-                    title: `you can not cange password`,
-                    showConfirmButton: false,
-                    timer: 1500
-                })
+                error: function (err) {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'error',
+                        title: `you can not cange password`,
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
 
-            },
-        });
+                },
+            });
+        }
     })
 
 
@@ -346,3 +396,39 @@ $(document).ready(function () {
 
 
 })
+
+
+function check_input(array) {
+
+    if ($(new_pass).val() && $(old_pass).val() && $(confirm_pass).val() ) {
+        if ($(new_pass).val() !== $(confirm_pass).val()) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Your Password is not match!',
+                footer: '<a href>Why do I have this issue?</a>'
+            })
+            return false;
+        }
+        if ($(new_pass).val().length < 8) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Password must be longer than 8 characters!',
+                footer: '<a href>Why do I have this issue?</a>'
+            })
+            return false;
+        }
+        return true;
+    } else {
+        Swal.fire({
+            position: 'top-end',
+            icon: 'error',
+            title: 'Please fill in all fields',
+            showConfirmButton: false,
+            timer: 1500
+        })
+        return false;
+    }
+
+}
