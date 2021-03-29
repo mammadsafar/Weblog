@@ -75,7 +75,7 @@
 
 
 
- 
+
 </head>
 
 <body>
@@ -166,6 +166,39 @@
         </section>
     </main>
 
+
+    <script>
+        let cache = localStorage.getItem("signinCache")
+        if (cache) {
+            let info = JSON.parse(cache)
+            document.getElementById("email").value = info.username;
+            document.getElementById("password").value = info.password;
+        }
+        $("body").on('click', '#login_btn', () => {
+
+            if ($('#remember').is(':checked') === true) {
+
+                if (localStorage.getItem("signupCache")) {
+                    localStorage.removeItem("signupCache")
+                }
+                localStorage.setItem("signinCache", JSON.stringify({
+                    username: document.getElementById("email").value,
+                    password: document.getElementById("password").value
+                }))
+            }
+        })
+
+
+        $('#remember').click(function () {
+            console.log(1);
+            if ($('#remember').is(':checked') === false) {
+                console.log(2);
+                if (localStorage.getItem("signupCache")) {
+                    localStorage.removeItem("signupCache")
+                }
+            }
+        });
+    </script>
     <!-- Core -->
     <script src="../../vendor/@popperjs/core/dist/umd/popper.min.js"></script>
     <script src="../../vendor/bootstrap/dist/js/bootstrap.min.js"></script>

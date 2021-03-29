@@ -266,34 +266,48 @@ $(document).ready(function () {
         });
     })
 
+
+    $("body").on('click', '#delete_account_btn', function () {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed === true) {
+                $.ajax({
+                    type: "DELETE",
+                    url: `dashboard/${user.username}`,
+                    // dataType: "application/json",
+                    success: function (response) {
+                        Swal.fire(
+                            'Deleted!',
+                            'Your file has been deleted.',
+                            'success'
+                        )
+                        logout();
+                    },
+
+                    error: function (err) {
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: 'you can delete',
+
+                        })
+                    },
+                });
+            }
+        })
+    })
+
     $("body").on('click', '#delete_btn', function () {
 
 
-        $.ajax({
-            type: "DELETE",
-            url: `dashboard/${user.username}`,
-            // dataType: "application/json",
-            success: function (response) {
-                Swal.fire({
-                    position: 'top-end',
-                    icon: 'success',
-                    title: 'Delete was Successfuly',
-                    showConfirmButton: false,
-                    timer: 1500
-                })
-                logout();
-            },
 
-            error: function (err) {
-                Swal.fire({
-                    position: 'top-end',
-                    icon: 'error',
-                    title: 'you can delete',
-                    showConfirmButton: false,
-                    timer: 1500
-                })
-            },
-        });
 
     })
     $("body").on('click', '#change_pass_btn', function () {
@@ -400,7 +414,7 @@ $(document).ready(function () {
 
 function check_input(array) {
 
-    if ($(new_pass).val() && $(old_pass).val() && $(confirm_pass).val() ) {
+    if ($(new_pass).val() && $(old_pass).val() && $(confirm_pass).val()) {
         if ($(new_pass).val() !== $(confirm_pass).val()) {
             Swal.fire({
                 icon: 'error',
