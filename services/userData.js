@@ -5,7 +5,7 @@ const User = require(path.join(__dirname, '../models/User'));
 const getUser = (req, res) => {
 // console.log(req.session.user);
 // console.log(req.session);
-    User.find({_id: req.session.user}, (err, user) => {
+    User.find({_id: req.session.user._id}, (err, user) => {
         if (err) {
             return res.redirect(url.format({
                 pathname: "/api/auth/registerPage",

@@ -28,6 +28,9 @@ router.use('/home', (req, res)=>{
 router.use('/about', (req, res)=>{
   res.render('about')
 });
+router.use('/contact', (req, res)=>{
+  res.render('contactUs')
+});
 
 
 

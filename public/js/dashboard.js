@@ -27,7 +27,10 @@ $(document).ready(function () {
 
             // console.log(user);
 
-            $("#avatar_show").attr('src', `${user.profile_pic}`)
+            $(".avatar_cover").attr('data-background', `${user.background_cover}`)
+
+            $(".avatar_show").attr('src', `${user.avatar}`)
+
             $("#username_show").html(`@${user.username}`)
             $("#name_show").html(`${user.firstname} ${user.lastname}`)
             $("#email_show").html(`${user.email}`)
@@ -41,7 +44,7 @@ $(document).ready(function () {
             $("#email").attr('value', `${user.email}`)
             $("#phone").attr('value', `${user.phone_number}`)
 
-            $("#gender").attr('value', `${user.profile_pic}`)
+            // $("#gender").attr('value', `${user.avatar}`)
 
 
 
@@ -311,10 +314,6 @@ $(document).ready(function () {
 
     })
     $("body").on('click', '#change_pass_btn', function () {
-        console.log(123);
-
-
-
 
         let new_pass = $("#new_pass");
         let old_pass = $("#old_pass");
@@ -374,6 +373,41 @@ $(document).ready(function () {
             });
         }
     })
+
+
+
+    // $("body").on('click', '#new_avatar_btn', function () {
+    //     console.log($("#new_avatar").val());
+    //     $.ajax({
+    //         type: "POST",
+    //         url: "/dashboard/avatar",
+    //         data:$("#new_avatar").val(),
+    //         dataType: "multipart/form-data",
+    //         success: function (response) {
+    //             Swal.fire({
+    //                 position: 'top-end',
+    //                 icon: 'success',
+    //                 title: 'OK',
+    //                 showConfirmButton: false,
+    //                 timer: 1500
+    //             })
+    //             window.location.reload();
+    //         },
+
+    //         error: function (err) {
+    //             Swal.fire({
+    //                 position: 'top-end',
+    //                 icon: 'error',
+    //                 title: `${err.message}-ll`,
+    //                 showConfirmButton: false,
+    //                 timer: 15000
+    //             })
+
+    //         },
+    //     });
+    // })
+
+
 
 
 

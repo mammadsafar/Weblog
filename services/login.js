@@ -53,7 +53,8 @@ const loggedInUser = (req, res) => {
                 }
             }));
             // console.log("5");
-            req.session.user = user._id;
+            req.session.user = user;
+            // console.log(req.session);
             // console.log(req.session.user);
             res.send();
 

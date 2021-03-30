@@ -220,8 +220,8 @@
               <a class="nav-link dropdown-toggle pt-1 px-0" href="#" role="button" data-bs-toggle="dropdown"
                 aria-expanded="false">
                 <div class="media d-flex align-items-center">
-                  <img class="user-avatar md-avatar rounded-circle" alt="Image placeholder"
-                    src="../assets/img/team/profile-picture-3.jpg">
+                  <img class="user-avatar md-avatar rounded-circle avatar_show" alt="Image placeholder"
+                    src="/images/avatars/default.png">
                   <div class="media-body ms-2 text-dark align-items-center d-none d-lg-block">
                     <span class="mb-0 font-small fw-bold">Bonnie Green</span>
                   </div>
@@ -235,7 +235,7 @@
                 <a class="dropdown-item fw-bold" href="#"><span class="fas fa-user-shield"></span>Support</a>
                 <div role="separator" class="dropdown-divider my-0"></div>
                 <a class="dropdown-item rounded-bottom fw-bold" id="delete_account_btn"><span
-                  class="fas fa-trash-alt text-danger"></span>Delete account</a>
+                    class="fas fa-trash-alt text-danger"></span>Delete account</a>
                 <a class="dropdown-item rounded-bottom fw-bold" id="logout_btn"><span
                     class="fas fa-sign-out-alt text-danger"></span>Logout</a>
               </div>
@@ -250,57 +250,53 @@
       <div class="col-12 col-xl-8">
         <div class="card card-body shadow-sm mb-4">
           <h2 class="h5 mb-4">General information</h2>
-        
-            <div class="row">
-              <div class="col-md-6 mb-3">
-                <div>
-                  <label for="first_name">First Name</label>
-                  <input class="form-control" id="first_name" type="text" placeholder="Enter your first name" required>
-                </div>
-              </div>
-              <div class="col-md-6 mb-3">
-                <div>
-                  <label for="last_name">Last Name</label>
-                  <input class="form-control" id="last_name" type="text" placeholder="Also your last name" required>
-                </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <div>
+                <label for="first_name">First Name</label>
+                <input class="form-control" id="first_name" type="text" placeholder="Enter your first name" required>
               </div>
             </div>
-            <div class="row align-items-center">
-              <div class="col-md-6 mb-3">
-                <div class="form-group">
-                  <label for="email">Email</label>
-                  <input class="form-control" id="email" type="email" placeholder="name@company.com" required>
-                </div>
-              </div>
-              <div class="col-md-6 mb-3">
-                <label for="gender">Gender</label>
-                <select class="form-select mb-0" id="gender" aria-label="Gender select example">
-                  <option value="gender">Gender</option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                </select>
+            <div class="col-md-6 mb-3">
+              <div>
+                <label for="last_name">Last Name</label>
+                <input class="form-control" id="last_name" type="text" placeholder="Also your last name" required>
               </div>
             </div>
-            <div class="row">
-
-              <div class="col-md-6 mb-3">
-                <div class="form-group">
-                  <label for="phone">Phone</label>
-                  <input class="form-control" id="phone" type="number" placeholder="+98 - 900 000 0000" required>
-                </div>
+          </div>
+          <div class="row align-items-center">
+            <div class="col-md-6 mb-3">
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input class="form-control" id="email" type="email" placeholder="name@company.com" required>
               </div>
             </div>
-            <button class="btn btn-dark" type="button" id="update_btn">Save All</button>
+            <div class="col-md-6 mb-3">
+              <label for="gender">Gender</label>
+              <select class="form-select mb-0" id="gender" aria-label="Gender select example">
+                <option value="gender">Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
 
-            <li role="separator" class="dropdown-divider mt-4 mb-3 border-black"></li>
+            <div class="col-md-6 mb-3">
+              <div class="form-group">
+                <label for="phone">Phone</label>
+                <input class="form-control" id="phone" type="number" placeholder="+98 - 900 000 0000" required>
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-dark" type="button" id="update_btn">Save All</button>
 
- <!-- ?    ---------------------------------< Form >--------------------------->
-            <form action="//profile" method="post" enctype="multipart/form-data">
-              <input type="file" name="avatar" />
-              <button class="btn btn-sm btn-dark" type="button">Save</button>
-            </form>
- <!-- ?    ---------------------------------< Form >--------------------------->
+          <li role="separator" class="dropdown-divider mt-4 mb-3 border-black"></li>
 
+          <!-- ?    ---------------------------------< Form >--------------------------->
+
+          <form action="/dashboard/avatar" method="post" enctype="multipart/form-data">
             <div class="col-12">
               <div class="card card-body shadow-sm mb-4">
                 <h2 class="h5 mb-4">Select profile photo</h2>
@@ -308,26 +304,28 @@
                   <div class="me-3">
                     <!-- Avatar -->
                     <div class="user-avatar xl-avatar">
-                      <img class="rounded" src="../assets/img/team/profile-picture-3.jpg" alt="change avatar">
+                      <img class="rounded avatar_show" src="/images/avatars/default.png" alt="change avatar">
                     </div>
                   </div>
                   <div class="file-field">
                     <div class="d-flex justify-content-xl-center ms-xl-3">
                       <div class="d-flex">
-                        <span class="icon icon-md"><span class="fas fa-paperclip me-3"></span></span> <input
-                          type="file">
+                        <span class="icon icon-md"><span class="fas fa-paperclip me-3"></span></span>
+                        <input type="file" name="avatar">
                         <div class="d-md-block text-left">
                           <div class="fw-normal text-dark mb-1">Choose Image</div>
                           <div class="text-gray small">JPG, GIF or PNG. Max size of 800K</div>
                         </div>
                       </div>
                     </div>
-                    <button class="btn btn-sm btn-dark" type="button">Save</button>
+                    <input class="btn btn-sm btn-dark" type="submit" value="submit">Save</input>
                   </div>
                 </div>
               </div>
             </div>
+          </form>
 
+          <form action="/dashboard/background_cover" method="post" enctype="multipart/form-data">
             <div class="col-12 col-xl-12">
               <div class="card card-body shadow-sm mb-4">
                 <h2 class="h5 mb-4">Select cover photo</h2>
@@ -335,91 +333,93 @@
                   <div class="me-3">
                     <!-- Avatar -->
                     <div class="user-avatar xl-avatar">
-                      <img class="rounded" src="../assets/img/profile-cover.jpg" alt="change cover photo">
+                      <img class="rounded avatar_cover" src="/images/background_cover/default.png" alt="change cover photo">
                     </div>
                   </div>
                   <div class="file-field">
                     <div class="d-flex justify-content-xl-center ms-xl-3">
                       <div class="d-flex">
-                        <span class="icon icon-md"><span class="fas fa-paperclip me-3"></span></span> <input type="file">
+                        <span class="icon icon-md"><span class="fas fa-paperclip me-3"></span></span>
+                        <input type="file" name="background_cover">
                         <div class="d-md-block text-left">
                           <div class="fw-normal text-dark mb-1">Choose Image</div>
                           <div class="text-gray small">JPG, GIF or PNG. Max size of 800K</div>
                         </div>
                       </div>
                     </div>
-                    <button class="btn btn-sm btn-dark" type="button">Save</button>
+                    <input class="btn btn-sm btn-dark" type="submit" value="submit">Save</input>
                   </div>
                 </div>
               </div>
             </div>
+          </form>
 
-            <div class="col-lg-4">
-              <!-- todo Button Modal -->
-              <button type="button" class="btn btn-block btn-dark mb-3" data-bs-toggle="modal"
-                data-bs-target="#modal-form-signup">Change Password</button>
-              <!-- ? Modal Content -->
-              <div class="modal fade" id="modal-form-signup" tabindex="-1" aria-labelledby="modal-form-signup"
-                style="display: none;" aria-hidden="true"> ?
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                  <div class="modal-content">
-                    <div class="modal-body p-0">
-                      <div class="card p-3 p-lg-4">
-                        <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal"
-                          aria-label="Close"></button>
-                        <div class="card-header border-0 text-center pb-0">
-                          <h2 class="mb-0 h5">Change Password</h2>
+          <!-- ?    ---------------------------------< Form >--------------------------->
+          <div class="col-lg-4">
+            <!-- todo Button Modal -->
+            <button type="button" class="btn btn-block btn-dark mb-3" data-bs-toggle="modal"
+              data-bs-target="#modal-form-signup">Change Password</button>
+            <!-- ? Modal Content -->
+            <div class="modal fade" id="modal-form-signup" tabindex="-1" aria-labelledby="modal-form-signup"
+              style="display: none;" aria-hidden="true"> ?
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-body p-0">
+                    <div class="card p-3 p-lg-4">
+                      <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                      <div class="card-header border-0 text-center pb-0">
+                        <h2 class="mb-0 h5">Change Password</h2>
+                      </div>
+                      <div class="card-body p-0 p-lg-3">
+
+                        <!-- Form -->
+                        <div class="form-group mb-4">
+                          <label for="old-password">Old Password</label>
+                          <div class="input-group">
+                            <span class="input-group-text" id="basic-addon3"><span
+                                class="fas fa-unlock-alt"></span></span>
+                            <input type="password" class="form-control" placeholder="Old Password" id="old_pass"
+                              required="">
+                          </div>
                         </div>
-                        <div class="card-body p-0 p-lg-3">
-
+                        <!-- End of Form -->
+                        <div class="form-group">
                           <!-- Form -->
                           <div class="form-group mb-4">
-                            <label for="old-password">Old Password</label>
+                            <label for="password">New Password</label>
                             <div class="input-group">
-                              <span class="input-group-text" id="basic-addon3"><span
-                                  class="fas fa-unlock-alt"></span></span>
-                              <input type="password" class="form-control" placeholder="Old Password" id="old_pass"
+                              <span class="input-group-text" id="basic-addon4"><i class="fas fa-unlock-alt"></i></span>
+                              <input type="password" placeholder="New Password" class="form-control" id="new_pass"
                                 required="">
                             </div>
                           </div>
                           <!-- End of Form -->
-                          <div class="form-group">
-                            <!-- Form -->
-                            <div class="form-group mb-4">
-                              <label for="password">New Password</label>
-                              <div class="input-group">
-                                <span class="input-group-text" id="basic-addon4"><i
-                                    class="fas fa-unlock-alt"></i></span>
-                                <input type="password" placeholder="New Password" class="form-control" id="new_pass"
-                                  required="">
-                              </div>
+                          <!-- Form -->
+                          <div class="form-group mb-4">
+                            <label for="password_confirm">Confirm Password</label>
+                            <div class="input-group">
+                              <span class="input-group-text" id="basic-addon5"><span
+                                  class="fas fa-lock-alt"></span></span>
+                              <input type="password" placeholder="Confirm Password" class="form-control"
+                                id="confirm_pass" required="">
                             </div>
-                            <!-- End of Form -->
-                            <!-- Form -->
-                            <div class="form-group mb-4">
-                              <label for="password_confirm">Confirm Password</label>
-                              <div class="input-group">
-                                <span class="input-group-text" id="basic-addon5"><span
-                                    class="fas fa-lock-alt"></span></span>
-                                <input type="password" placeholder="Confirm Password" class="form-control"
-                                  id="confirm_pass" required="">
-                              </div>
-                            </div>
-
-                            <div class="d-grid">
-                              <button type="submit" class="btn btn-dark" id="change_pass_btn">Sign up</button>
-                            </div>
-
-
                           </div>
+
+                          <div class="d-grid">
+                            <button type="submit" class="btn btn-dark" id="change_pass_btn">Sign up</button>
+                          </div>
+
+
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <!-- ? End of Modal Content -->
             </div>
+            <!-- ? End of Modal Content -->
+          </div>
 
         </div>
 
@@ -428,11 +428,11 @@
         <div class="row">
           <div class="col-12 mb-4">
             <div class="card shadow-sm text-center p-0">
-              <div id="avatar_cover" class="profile-cover rounded-top"
+              <div  class="profile-cover rounded-top avatar_cover"
                 data-background="/images/background_cover/default.jpg"></div>
               <div class="card-body pb-5">
-                <img id="avatar_show" src="/images/avatars/default.png"
-                  class="user-avatar large-avatar rounded-circle mx-auto mt-n7 mb-4" alt="Neil Portrait">
+                <img src="/images/avatars/default.png"
+                  class="user-avatar large-avatar rounded-circle mx-auto mt-n7 mb-4 avatar_show" alt="Neil Portrait">
                 <h4 class="h3" id="username_show"></h4>
                 <h5 class="fw-normal" id="name_show"></h5>
                 <p class="text-gray mb-4" id="email_show"></p>

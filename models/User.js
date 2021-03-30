@@ -91,7 +91,7 @@ const userSchema = new mongoose.Schema({
         enum: ['admin', 'blogger'],
         defaul: 'blogger'
     },
-    profile_pic: {
+    avatar: {
         ...essentialSchema,
         default: '/images/avatars/default.png'
     },

@@ -1,13 +1,15 @@
 const path = require('path');
+const fs = require('fs');
 const User = require(path.join(__dirname, '../models/User'));
 const bcrypt = require('bcrypt');
-
+const generalTools = require('../tools/general-tools');
+const multer = require('multer');
 
 
 
 
 const showDashboard = (req, res) => {
-console.log("hasan kachal-----------");
+    console.log("hasan kachal-----------");
     res.render('Dashboard');
 
 }
@@ -137,6 +139,125 @@ const deletUser = (req, res) => {
 
 }
 
+// ? ---------------------------------< Update Avatar >---------------------------- 
+const UpdateUserAvatar = (req, res) => {
+
+    const upload = generalTools.uploadAvatar.single('avatar');
+    console.log(1);
+
+
+    upload(req, res, function (err) {
+
+
+        if (err instanceof multer.MulterError) {
+            res.status(500).send('Server Error :/')
+
+        } else if (err) {
+
+            res.status(400).send("Bad Request!")
+
+        } else {
+
+            User.findByIdAndUpdate(
+                req.session.user._id, {
+                    avatar: `/images/avatars/${req.file.filename}`
+                }, {
+                    new: true
+                }, (err, user) => {
+                    if (err) {
+                        console.log("============>   ", 4);
+                        res.status(500).json({
+                            msg: 'Server Error!'
+                        })
+                    } else {
+                        console.log(user);
+                        if (req.session.user.avatar && req.session.user.avatar !== '/images/avatars/default.png') {
+
+                            fs.unlink(path.join(__dirname, '../public', req.session.user.avatar), err => {
+                                if (err) {
+                                    console.log(400);
+                                    res.status(500).json({
+                                        msg: 'Server Error!'
+                                    })
+                                } else {
+                                    req.session.user = user;
+
+                                    res.redirect('/dashboard');
+                                }
+                            })
+
+
+                        } else {
+
+                            req.session.user = user;
+
+                            res.redirect('/dashboard');
+                        }
+                    }
+                })
+        }
+    })
+}
+
+
+// ? ---------------------------------< Update backgrond_avatar >---------------------------- 
+const uploadBackgrondAvatar = (req, res) => {
+
+    const upload = generalTools.uploadBackgrondAvatar.single('background_cover');
+    console.log(1);
+
+
+    upload(req, res, function (err) {
+
+
+        if (err instanceof multer.MulterError) {
+            res.status(500).send('Server Error :/')
+
+        } else if (err) {
+
+            res.status(400).send("Bad Request!")
+
+        } else {
+
+            User.findByIdAndUpdate(
+                req.session.user._id, {
+                    background_cover: `/images/background_cover/${req.file.filename}`
+                }, {
+                    new: true
+                }, (err, user) => {
+                    if (err) {
+                        console.log("============>   ", 4);
+                        res.status(500).json({
+                            msg: 'Server Error!'
+                        })
+                    } else {
+                        console.log(user);
+                        if (req.session.user.background_cover && user.background_cover !== '/images/background_cover/default.jpg') {
+                            req.session.user = user;
+
+                            res.redirect('/dashboard');
+                        } else {
+                            fs.unlink(path.join(__dirname, '../public', req.session.user.background_cover), err => {
+                                if (err) {
+                                    console.log(400);
+                                    res.status(500).json({
+                                        msg: 'Server Error!'
+                                    })
+                                } else {
+                                    req.session.user = user;
+
+                                    res.redirect('/dashboard');
+                                }
+                            })
+
+                        }
+                    }
+                })
+        }
+    })
+}
+
+
 
 module.exports = {
     showDashboard,
@@ -144,4 +265,6 @@ module.exports = {
     deletUser,
     UpdateUser,
     UpdatePass,
+    UpdateUserAvatar,
+    uploadBackgrondAvatar,
 }
