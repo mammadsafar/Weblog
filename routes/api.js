@@ -5,6 +5,7 @@ const login = require('../controller/login')
 const logout = require('../controller/logout');
 const userData = require('../controller/userData');
 const dashboard = require('../controller/dashboard');
+const article = require('../controller/article');
 const generalTools = require('../tools/general-tools');
 
 
@@ -18,18 +19,21 @@ router.use('/logout', logout);
 router.use('/dashboard', generalTools.loginChecker, dashboard);
 // ? ---------------------------------< ger data user >---------------------------- 
 router.use('/userData', userData);
+// ? ---------------------------------< article >---------------------------- 
+router.use('/article', generalTools.loginChecker, article);
 
-router.use('/', (req, res)=>{
+
+router.get('/', (req, res) => {
   res.render('home')
 });
-router.use('/home', (req, res)=>{
+router.get('/home', (req, res) => {
   res.render('home')
 });
-router.use('/about', (req, res)=>{
+router.get('/about', (req, res) => {
   res.render('about')
 });
-router.use('/contact', (req, res)=>{
-  res.render('contactUs')
+router.get('/contact', (req, res) => {
+  res.render('article/newArticle')
 });
 
 

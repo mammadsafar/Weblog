@@ -21,11 +21,9 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <!-- Primary Meta Tags -->
-  <title>Dashboard</title>
-
-
+  <title>My Article</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="title" content="Dashboard">
+  <meta name="title" content="Volt Free Bootstrap Dashboard - Transactions">
   <meta name="author" content="Themesberg">
   <meta name="description"
     content="Volt Pro is a Premium Bootstrap 5 Admin Dashboard featuring over 800 components, 10+ plugins and 20 example pages using Vanilla JS.">
@@ -36,7 +34,7 @@
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://demo.themesberg.com/volt-pro">
-  <meta property="og:title" content="Dashboard">
+  <meta property="og:title" content="Volt Free Bootstrap Dashboard - Transactions">
   <meta property="og:description"
     content="Volt Pro is a Premium Bootstrap 5 Admin Dashboard featuring over 800 components, 10+ plugins and 20 example pages using Vanilla JS.">
   <meta property="og:image"
@@ -45,7 +43,7 @@
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image">
   <meta property="twitter:url" content="https://demo.themesberg.com/volt-pro">
-  <meta property="twitter:title" content="Dashboard">
+  <meta property="twitter:title" content="Volt Free Bootstrap Dashboard - Transactions">
   <meta property="twitter:description"
     content="Volt Pro is a Premium Bootstrap 5 Admin Dashboard featuring over 800 components, 10+ plugins and 20 example pages using Vanilla JS.">
   <meta property="twitter:image"
@@ -73,13 +71,13 @@
   <link type="text/css" href="/css/volt.css" rel="stylesheet">
 
   <!-- NOTICE: You can use the _analytics.html partial to include production code specific code & trackers -->
-  <%- include('./partials/header') %>
+  <%- include('../partials/header') %>
 </head>
 
 <body>
 
   <!-- NOTICE: You can use the _analytics.html partial to include production code specific code & trackers -->
-  <!--  -->
+
 
   <nav class="navbar navbar-dark navbar-theme-primary px-4 col-12 d-md-none">
     <a class="navbar-brand me-lg-5" href="/index.html">
@@ -151,9 +149,9 @@
             </span>
             <span class="link-arrow"><span class="fas fa-chevron-right"></span></span>
           </span>
-          <div class="multi-level collapse " role="list" id="submenu-app" aria-expanded="false">
+          <div class="multi-level collapse show" role="list" id="submenu-app" aria-expanded="false">
             <ul class="flex-column nav">
-              <li class="nav-item ">
+              <li class="nav-item active">
                 <a class="nav-link" href="/article/new">
                   <span class="sidebar-text">New Article</span>
                 </a>
@@ -178,7 +176,7 @@
 
 
 
-        <li class="nav-item active">
+        <li class="nav-item ">
           <a href="/dashboard" class="nav-link">
             <span class="sidebar-icon"><span class="fas fa-cog"></span></span>
             <span class="sidebar-text">My Info</span>
@@ -225,33 +223,22 @@
     </div>
   </nav>
 
+
   <main class="content">
 
     <nav class="navbar navbar-top navbar-expand navbar-dashboard navbar-dark ps-0 pe-2 pb-0">
       <div class="container-fluid px-0">
         <div class="d-flex justify-content-between w-100" id="navbarSupportedContent">
           <div class="d-flex align-items-center">
-
-
+            <!-- Search form -->
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
-              
-                <button class="btn btn-secondary text-dark me-2 dropdown-toggle" data-bs-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="false">
-                  <span class="fas fa-plus me-2"></span>New Article
-                </button>
-                <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-0">
-                  <a class="dropdown-item fw-normal rounded-top" href="#"><span
-                      class="far fa-file-alt me-2"></span>Create New Article</a>
-                  <a class="dropdown-item fw-normal" href="#"><span class="far fa-comment-dots me-2"></span>Message</a>
-                  <a class="dropdown-item fw-normal" href="#"><span class="fas fa-box-open me-2"></span>Product</a>
-                  <div role="separator" class="dropdown-divider my-0"></div>
-                  <a class="dropdown-item fw-normal rounded-bottom" href="#"><span
-                      class="fas fa-rocket text-danger me-2"></span>My Plan</a>
-                </div>
-              
+              <div class="d-block mb-4 mb-md-0">
+
+                <h2 class="h4">Create New Article</h2>
+                <p class="mb-0">You can create a new article in this page.</p>
+              </div>
 
             </div>
-
           </div>
           <!-- Navbar links -->
           <ul class="navbar-nav align-items-center">
@@ -260,8 +247,8 @@
               <a class="nav-link dropdown-toggle pt-1 px-0" href="#" role="button" data-bs-toggle="dropdown"
                 aria-expanded="false">
                 <div class="media d-flex align-items-center">
-                  <img class="user-avatar md-avatar rounded-circle avatar_show" alt="Image placeholder"
-                    src="/images/avatars/default.png">
+                  <img class="user-avatar md-avatar rounded-circle" alt="Image placeholder"
+                    src="/assets/img/team/profile-picture-3.jpg">
                   <div class="media-body ms-2 text-dark align-items-center d-none d-lg-block">
                     <span class="mb-0 font-small fw-bold">Bonnie Green</span>
                   </div>
@@ -274,9 +261,7 @@
                 <a class="dropdown-item fw-bold" href="#"><span class="fas fa-envelope-open-text"></span>Messages</a>
                 <a class="dropdown-item fw-bold" href="#"><span class="fas fa-user-shield"></span>Support</a>
                 <div role="separator" class="dropdown-divider my-0"></div>
-                <a class="dropdown-item rounded-bottom fw-bold" id="delete_account_btn"><span
-                    class="fas fa-trash-alt text-danger"></span>Delete account</a>
-                <a class="dropdown-item rounded-bottom fw-bold" id="logout_btn"><span
+                <a class="dropdown-item rounded-bottom fw-bold" href="#"><span
                     class="fas fa-sign-out-alt text-danger"></span>Logout</a>
               </div>
             </li>
@@ -284,215 +269,72 @@
         </div>
       </div>
     </nav>
-    <!-- ?    ---------------------------------< Edit >--------------------------->
-
-    <div class="row">
-      <div class="col-12 col-xl-8">
-        <div class="card card-body shadow-sm mb-4">
-          <h2 class="h5 mb-4">General information</h2>
-
-          <div class="row">
-            <div class="col-md-6 mb-3">
-              <div>
-                <label for="first_name">First Name</label>
-                <input class="form-control" id="first_name" type="text" placeholder="Enter your first name" required>
-              </div>
-            </div>
-            <div class="col-md-6 mb-3">
-              <div>
-                <label for="last_name">Last Name</label>
-                <input class="form-control" id="last_name" type="text" placeholder="Also your last name" required>
-              </div>
-            </div>
-          </div>
-          <div class="row align-items-center">
-            <div class="col-md-6 mb-3">
-              <div class="form-group">
-                <label for="email">Email</label>
-                <input class="form-control" id="email" type="email" placeholder="name@company.com" required>
-              </div>
-            </div>
-            <div class="col-md-6 mb-3">
-              <label for="gender">Gender</label>
-              <select class="form-select mb-0" id="gender" aria-label="Gender select example">
-                <option value="gender">Gender</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-              </select>
-            </div>
-          </div>
-          <div class="row">
-
-            <div class="col-md-6 mb-3">
-              <div class="form-group">
-                <label for="phone">Phone</label>
-                <input class="form-control" id="phone" type="number" placeholder="+98 - 900 000 0000" required>
-              </div>
-            </div>
-          </div>
-          <button class="btn btn-dark" type="button" id="update_btn">Save All</button>
-
-          <li role="separator" class="dropdown-divider mt-4 mb-3 border-black"></li>
-
-          <!-- ?    ---------------------------------< Form >--------------------------->
-
-          <form action="/dashboard/avatar" method="post" enctype="multipart/form-data">
-            <div class="col-12">
-              <div class="card card-body shadow-sm mb-4">
-                <h2 class="h5 mb-4">Select profile photo</h2>
-                <div class="d-flex align-items-center">
-                  <div class="me-3">
-                    <!-- Avatar -->
-                    <div class="user-avatar xl-avatar">
-                      <img class="rounded avatar_show" src="/images/avatars/default.png" alt="change avatar">
-                    </div>
-                  </div>
-                  <div class="file-field">
-                    <div class="d-flex justify-content-xl-center ms-xl-3">
-                      <div class="d-flex">
-                        <span class="icon icon-md"><span class="fas fa-paperclip me-3"></span></span>
-                        <input type="file" name="avatar">
-                        <div class="d-md-block text-left">
-                          <div class="fw-normal text-dark mb-1">Choose Image</div>
-                          <div class="text-gray small">JPG, GIF or PNG. Max size of 800K</div>
-                        </div>
-                      </div>
-                    </div>
-                    <input class="btn btn-sm btn-dark" type="submit" value="submit">Save</input>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </form>
-
-          <form action="/dashboard/background_cover" method="post" enctype="multipart/form-data">
-            <div class="col-12 col-xl-12">
-              <div class="card card-body shadow-sm mb-4">
-                <h2 class="h5 mb-4">Select cover photo</h2>
-                <div class="d-flex align-items-center">
-                  <div class="me-3">
-                    <!-- Avatar -->
-                    <div class="user-avatar xl-avatar">
-                      <img class="rounded avatar_cover" src="/images/background_cover/default.png"
-                        alt="change cover photo">
-                    </div>
-                  </div>
-                  <div class="file-field">
-                    <div class="d-flex justify-content-xl-center ms-xl-3">
-                      <div class="d-flex">
-                        <span class="icon icon-md"><span class="fas fa-paperclip me-3"></span></span>
-                        <input type="file" name="background_cover">
-                        <div class="d-md-block text-left">
-                          <div class="fw-normal text-dark mb-1">Choose Image</div>
-                          <div class="text-gray small">JPG, GIF or PNG. Max size of 800K</div>
-                        </div>
-                      </div>
-                    </div>
-                    <input class="btn btn-sm btn-dark" type="submit" value="submit">Save</input>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </form>
-
-          <!-- ?    ---------------------------------< Form >--------------------------->
-          <div class="col-lg-4">
-            <!-- todo Button Modal -->
-            <button type="button" class="btn btn-block btn-dark mb-3" data-bs-toggle="modal"
-              data-bs-target="#modal-form-signup">Change Password</button>
-            <!-- ? Modal Content -->
-            <div class="modal fade" id="modal-form-signup" tabindex="-1" aria-labelledby="modal-form-signup"
-              style="display: none;" aria-hidden="true"> ?
-              <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                  <div class="modal-body p-0">
-                    <div class="card p-3 p-lg-4">
-                      <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
-                      <div class="card-header border-0 text-center pb-0">
-                        <h2 class="mb-0 h5">Change Password</h2>
-                      </div>
-                      <div class="card-body p-0 p-lg-3">
-
-                        <!-- Form -->
-                        <div class="form-group mb-4">
-                          <label for="old-password">Old Password</label>
-                          <div class="input-group">
-                            <span class="input-group-text" id="basic-addon3"><span
-                                class="fas fa-unlock-alt"></span></span>
-                            <input type="password" class="form-control" placeholder="Old Password" id="old_pass"
-                              required="">
-                          </div>
-                        </div>
-                        <!-- End of Form -->
-                        <div class="form-group">
-                          <!-- Form -->
-                          <div class="form-group mb-4">
-                            <label for="password">New Password</label>
-                            <div class="input-group">
-                              <span class="input-group-text" id="basic-addon4"><i class="fas fa-unlock-alt"></i></span>
-                              <input type="password" placeholder="New Password" class="form-control" id="new_pass"
-                                required="">
-                            </div>
-                          </div>
-                          <!-- End of Form -->
-                          <!-- Form -->
-                          <div class="form-group mb-4">
-                            <label for="password_confirm">Confirm Password</label>
-                            <div class="input-group">
-                              <span class="input-group-text" id="basic-addon5"><span
-                                  class="fas fa-lock-alt"></span></span>
-                              <input type="password" placeholder="Confirm Password" class="form-control"
-                                id="confirm_pass" required="">
-                            </div>
-                          </div>
-
-                          <div class="d-grid">
-                            <button type="submit" class="btn btn-dark" id="change_pass_btn">Sign up</button>
-                          </div>
 
 
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- ? End of Modal Content -->
-          </div>
 
+    <div class="card card-body shadow-sm table-wrapper table-responsive">
+
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4 ">
+        <div class="mb-4 col-5">
+          <label for="text">
+            Article Name
+          </label>
+          <input type="text" class="form-control" id="text" aria-describedby="textHelp">
         </div>
 
-      </div>
-      <div class="col-12 col-xl-4">
-        <div class="row">
-          <div class="col-12 mb-4">
-            <div class="card shadow-sm text-center p-0">
-              <div class="profile-cover rounded-top avatar_cover"
-                data-background="/images/background_cover/default.jpg"></div>
-              <div class="card-body pb-5">
-                <img src="/images/avatars/default.png"
-                  class="user-avatar large-avatar rounded-circle mx-auto mt-n7 mb-4 avatar_show" alt="Neil Portrait">
-                <h4 class="h3" id="username_show"></h4>
-                <h5 class="fw-normal" id="name_show"></h5>
-                <p class="text-gray mb-4" id="email_show"></p>
-                <p class="text-gray mb-4" id="gender_show"></p>
-                <p class="text-gray mb-4" id="phonenumber_show"></p>
-
+        <div class="col-5">
+          <div class="card card-body shadow-sm mb-4">
+            <h2 class="h5 mb-4">Select profile photo</h2>
+            <div class="d-flex align-items-center">
+              <div class="me-3">
+                <div class="user-avatar xl-avatar"><img class="rounded" src="../assets/img/team/profile-picture-3.jpg"
+                    alt="change avatar"></div>
+              </div>
+              <div class="file-field">
+                <div class="d-flex justify-content-xl-center ms-xl-3">
+                  <div class="d-flex"><span class="icon icon-md"><span class="fas fa-paperclip me-3"></span></span>
+                    <input type="file">
+                    <div class="d-md-block text-left">
+                      <div class="fw-normal text-dark mb-1">Choose Image</div>
+                      <div class="text-gray small">JPG, GIF or PNG. Max size of 800K</div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-
-
         </div>
+
+        <button class="btn btn-success" type="button">Success</button>
       </div>
+      <!-- CKEditor -->
+      <script src="//cdn.ckeditor.com/4.16.0/full/ckeditor.js"></script>
+
+      <form>
+        <textarea name="editor1" id="editor1" rows="10" cols="80">
+
+            This is my textarea to be replaced with CKEditor 4.
+        </textarea>
+        <script>
+          // Replace the <textarea id="editor1"> with a CKEditor 4
+          // instance, using default configuration.
+          CKEDITOR.replace('editor1', {
+
+            filebrowserUploadUrl: '/article/articleImage'
+          });
+        </script>
+      </form>
+
+
+
+
     </div>
 
-    <!-- ?    ---------------------------------< /Edit >--------------------------->
+
+
+
     <footer class="footer section py-5">
       <div class="row">
-
 
         <div class="col-12 col-lg-6">
           <!-- List -->
@@ -500,6 +342,7 @@
             <li class="list-inline-item px-0 px-sm-2">
               <a href="https://themesberg.com/about">About</a>
             </li>
+
             <li class="list-inline-item px-0 px-sm-2">
               <a href="https://themesberg.com/blog">Blog</a>
             </li>
@@ -511,6 +354,12 @@
       </div>
     </footer>
   </main>
+
+
+
+
+
+
 
 
 
@@ -556,7 +405,6 @@
   <!-- Volt JS -->
   <script src="/assets/js/volt.js"></script>
 
-  <script src="/js/dashboard.js"></script>
 
 </body>
 

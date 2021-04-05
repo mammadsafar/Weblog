@@ -19,16 +19,7 @@ generalTools.loginChecker = (req, res, next) => {
 };
 
 
-// const avatarStorage = multer.diskStorage({
-//     destination: function (req, file, cb) {
-//         let a = path.join(__dirname, '../public/images/avatars');
-//         cb(null, path.join(__dirname, '../public/images/avatars'))
-//     },
-//     filename: function (req, file, cb) {
-//         let a = `${req.session.user.username}-${Date.now()}-${file.originalname}`;
-//         cb(null, `${req.session.user.username}-${Date.now()}-${file.originalname}`)
-//     }
-// });
+// ? ---------------------------------< avatar Images >---------------------------- 
 
 const avatarStorage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -69,6 +60,7 @@ generalTools.uploadAvatar = multer({
 
 
 
+// ? ---------------------------------< background Images >---------------------------- 
 
 
 const BackgroundavatarStorage = multer.diskStorage({
@@ -106,5 +98,82 @@ function checkFile(file, cb) { //allowed ectentions
     }
 }
 
+
+// ? ---------------------------------< article Images >---------------------------- 
+const articleImage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        let a = path.join(__dirname, '/../public/images/articles/images');
+        console.log(a);
+        cb(null, path.join(__dirname, '/../public/images/articles/images'))
+    },
+    filename: function (req, file, cb) {
+        let a = `${req.session.user.username}-${Date.now()}-${file.originalname}`;
+        console.log(a);
+        cb(null, `${req.session.user.username}-${Date.now()}-${file.originalname}`)
+    }
+})
+
+
+generalTools.uploadArticleImages = multer({
+    storage: articleImage,
+    fileFilter: function (req, file, cb) {
+        console.log(123);
+        console.log(file);
+
+        // if (!file.originalname.match(/\.(jpg|jpeg|png)$/g)) {
+        if (file.mimetype === 'image/png' ||
+            file.mimetype === 'image/jpg' ||
+            file.mimetype === 'image/jpeg') {
+            cb(null, true)
+        } else {
+            cb(new Error('invalid type!'), false)
+
+        }
+        // if (fieldNameSize.length > 800000) {
+        //     cb(new Error('high Size!'), false)
+        // }
+
+    }
+
+})
+
+
+// ? ---------------------------------< ptofile Article Images >---------------------------- 
+const articleProfile = multer.diskStorage({
+    destination: function (req, file, cb) {
+        let a = path.join(__dirname, '/../public/images/articles/profiles');
+        console.log(a);
+        cb(null, path.join(__dirname, '/../public/images/articles/profiles'))
+    },
+    filename: function (req, file, cb) {
+        let a = `${req.session.user.username}-${Date.now()}-${file.originalname}`;
+        console.log(a);
+        cb(null, `${req.session.user.username}-${Date.now()}-${file.originalname}`)
+    }
+})
+
+
+generalTools.uploadArticleProfile = multer({
+    storage: articleProfile,
+    fileFilter: function (req, file, cb) {
+        console.log(123);
+        console.log(file);
+
+        // if (!file.originalname.match(/\.(jpg|jpeg|png)$/g)) {
+        if (file.mimetype === 'image/png' ||
+            file.mimetype === 'image/jpg' ||
+            file.mimetype === 'image/jpeg') {
+            cb(null, true)
+        } else {
+            cb(new Error('invalid type!'), false)
+
+        }
+        // if (fieldNameSize.length > 800000) {
+        //     cb(new Error('high Size!'), false)
+        // }
+
+    }
+
+})
 
 module.exports = generalTools;
