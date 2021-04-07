@@ -102,9 +102,9 @@ function checkFile(file, cb) { //allowed ectentions
 // ? ---------------------------------< article Images >---------------------------- 
 const articleImage = multer.diskStorage({
     destination: function (req, file, cb) {
-        let a = path.join(__dirname, '/../public/images/articles/images');
+        let a = path.join(__dirname, '/../public/articles/images');
         console.log(a);
-        cb(null, path.join(__dirname, '/../public/images/articles/images'))
+        cb(null, path.join(__dirname, '/../public/articles/images'))
     },
     filename: function (req, file, cb) {
         let a = `${req.session.user.username}-${Date.now()}-${file.originalname}`;
@@ -138,12 +138,12 @@ generalTools.uploadArticleImages = multer({
 })
 
 
-// ? ---------------------------------< ptofile Article Images >---------------------------- 
+// ? ---------------------------------< profile Article Images >---------------------------- 
 const articleProfile = multer.diskStorage({
     destination: function (req, file, cb) {
-        let a = path.join(__dirname, '/../public/images/articles/profiles');
+        let a = path.join(__dirname, '/../public/articles/profiles');
         console.log(a);
-        cb(null, path.join(__dirname, '/../public/images/articles/profiles'))
+        cb(null, path.join(__dirname, '/../public/articles/profiles'))
     },
     filename: function (req, file, cb) {
         let a = `${req.session.user.username}-${Date.now()}-${file.originalname}`;
@@ -168,12 +168,13 @@ generalTools.uploadArticleProfile = multer({
             cb(new Error('invalid type!'), false)
 
         }
-        // if (fieldNameSize.length > 800000) {
-        //     cb(new Error('high Size!'), false)
-        // }
-
     }
-
 })
+
+
+
+
+
+
 
 module.exports = generalTools;

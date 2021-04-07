@@ -247,21 +247,21 @@
               <a class="nav-link dropdown-toggle pt-1 px-0" href="#" role="button" data-bs-toggle="dropdown"
                 aria-expanded="false">
                 <div class="media d-flex align-items-center">
-                  <img class="user-avatar md-avatar rounded-circle" alt="Image placeholder"
+                  <img class="user-avatar md-avatar rounded-circle"  id="avatar_show"alt="Image placeholder"
                     src="/assets/img/team/profile-picture-3.jpg">
                   <div class="media-body ms-2 text-dark align-items-center d-none d-lg-block">
-                    <span class="mb-0 font-small fw-bold">Bonnie Green</span>
+                    <span class="mb-0 font-small fw-bold" id="name_show">Bonnie Green</span>
                   </div>
                 </div>
               </a>
               <div class="dropdown-menu dashboard-dropdown dropdown-menu-end mt-2 py-0">
-                <a class="dropdown-item rounded-top fw-bold" href="#"><span class="far fa-user-circle"></span>My
+                <a class="dropdown-item rounded-top fw-bold" href="/dashboard"><span class="far fa-user-circle"></span>My
                   Profile</a>
                 <a class="dropdown-item fw-bold" href="#"><span class="fas fa-cog"></span>Settings</a>
                 <a class="dropdown-item fw-bold" href="#"><span class="fas fa-envelope-open-text"></span>Messages</a>
                 <a class="dropdown-item fw-bold" href="#"><span class="fas fa-user-shield"></span>Support</a>
                 <div role="separator" class="dropdown-divider my-0"></div>
-                <a class="dropdown-item rounded-bottom fw-bold" href="#"><span
+                <a class="dropdown-item rounded-bottom fw-bold" id="logout_btn"><span
                     class="fas fa-sign-out-alt text-danger"></span>Logout</a>
               </div>
             </li>
@@ -275,45 +275,46 @@
     <div class="card card-body shadow-sm table-wrapper table-responsive">
 
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4 ">
+
         <div class="mb-4 col-5">
           <label for="text">
             Article Name
           </label>
-          <input type="text" class="form-control" id="text" aria-describedby="textHelp">
+          <input type="text" class="form-control" id="article_name" aria-describedby="textHelp">
         </div>
-
         <div class="col-5">
-          <div class="card card-body shadow-sm mb-4">
-            <h2 class="h5 mb-4">Select profile photo</h2>
-            <div class="d-flex align-items-center">
-              <div class="me-3">
-                <div class="user-avatar xl-avatar"><img class="rounded" src="../assets/img/team/profile-picture-3.jpg"
-                    alt="change avatar"></div>
-              </div>
-              <div class="file-field">
-                <div class="d-flex justify-content-xl-center ms-xl-3">
-                  <div class="d-flex"><span class="icon icon-md"><span class="fas fa-paperclip me-3"></span></span>
-                    <input type="file">
-                    <div class="d-md-block text-left">
-                      <div class="fw-normal text-dark mb-1">Choose Image</div>
-                      <div class="text-gray small">JPG, GIF or PNG. Max size of 800K</div>
+        <form action="/article/articleprofile" method="post" enctype="multipart/form-data">
+            <div class="card card-body shadow-sm mb-4">
+              <h2 class="h5 mb-4">Select profile photo</h2>
+              <div class="d-flex align-items-center">
+                <div class="me-3">
+                  <div class="user-avatar xl-avatar"><img class="rounded" src="/articles/profiles/default.jpg"
+                      alt="change avatar"></div>
+                </div>
+                <div class="file-field">
+                  <div class="d-flex justify-content-xl-center ms-xl-3">
+                    <div class="d-flex"><span class="icon icon-md"><span class="fas fa-paperclip me-3"></span></span>
+                      <input type="file" name="avatar">
+                      <div class="d-md-block text-left">
+                        <div class="fw-normal text-dark mb-1">Choose Image</div>
+                        <div class="text-gray small">JPG, GIF or PNG. Max size of 800K</div>
+                      </div>
                     </div>
                   </div>
+                  <input class="btn btn-sm btn-dark" type="submit" value="Save" id="save_article_profile_btn"></input>
                 </div>
               </div>
             </div>
-          </div>
+          </form>
         </div>
-
-        <button class="btn btn-success" type="button">Success</button>
+        <button class="btn btn-success" type="button" id="save_btn">Save</button>
       </div>
       <!-- CKEditor -->
       <script src="//cdn.ckeditor.com/4.16.0/full/ckeditor.js"></script>
 
-      <form>
         <textarea name="editor1" id="editor1" rows="10" cols="80">
 
-            This is my textarea to be replaced with CKEditor 4.
+      
         </textarea>
         <script>
           // Replace the <textarea id="editor1"> with a CKEditor 4
@@ -323,7 +324,6 @@
             filebrowserUploadUrl: '/article/articleImage'
           });
         </script>
-      </form>
 
 
 
@@ -404,6 +404,9 @@
 
   <!-- Volt JS -->
   <script src="/assets/js/volt.js"></script>
+
+  <!-- newArticle JS -->
+  <script src="/js/newArticle.js"></script>
 
 
 </body>

@@ -1,20 +1,6 @@
 const path = require('path');
 const User = require(path.join(__dirname, '../models/User'));
-const url = require('url');
 
-const fieldPattern = [
-    "firstname",
-    "lastname",
-    "username",
-    "password",
-    "sex",
-    "email",
-    "phone_number",
-    "createAt",
-    "lastUpdate",
-    "role",
-    "profile_pic"
-];
 
 const registerPage = (req, res) => {
     console.log(1234);

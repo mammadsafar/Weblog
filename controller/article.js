@@ -5,8 +5,8 @@ const {
     newArticle,
     articleprofile,
     articleImage,
-    // UpdateUser,
-    // UpdatePass,
+    addNewArticle,
+    addText,
     // UpdateUserAvatar,
     // uploadBackgrondAvatar,
 } = require("../services/article");
@@ -14,8 +14,8 @@ const {
 router.get('/new', newArticle)
 router.post('/articleprofile', articleprofile);
 router.post('/articleImage', articleImage);
-// router.get('/getAllUser', getAllUser);
-// router.delete('/:username', deletUser);
+router.post('/addtitle', addNewArticle);
+router.post('/addText', addText);
 // router.put('/pass:username', UpdatePass);
 // router.put('/:username', UpdateUser);
 // router.post('/background_cover', uploadBackgrondAvatar);

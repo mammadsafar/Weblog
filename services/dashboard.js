@@ -157,7 +157,7 @@ const UpdateUserAvatar = (req, res) => {
             res.status(400).send("Bad Request!")
 
         } else {
-
+console.log(req.file);
             User.findByIdAndUpdate(
                 req.session.user._id, {
                     avatar: `/images/avatars/${req.file.filename}`
@@ -226,12 +226,12 @@ const uploadBackgrondAvatar = (req, res) => {
                     new: true
                 }, (err, user) => {
                     if (err) {
-                        console.log("============>   ", 4);
+
                         res.status(500).json({
                             msg: 'Server Error!'
                         })
                     } else {
-                        console.log(user);
+
                         if (req.session.user.background_cover && user.background_cover !== '/images/background_cover/default.jpg') {
                             req.session.user = user;
 

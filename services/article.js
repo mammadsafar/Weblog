@@ -1,6 +1,7 @@
 const path = require('path');
 const fs = require('fs');
-const User = require(path.join(__dirname, '../models/User'));
+// const User = require(path.join(__dirname, '../models/User'));
+const Article = require(path.join(__dirname, '../models/article'));
 const bcrypt = require('bcrypt');
 const generalTools = require('../tools/general-tools');
 const multer = require('multer');
@@ -32,44 +33,33 @@ const articleprofile = (req, res) => {
             res.status(400).send("Bad Request!")
 
         } else {
+            console.log(req.file);
+            console.log(req.session);
+            if (req.session.article === undefined) {
 
-            User.findByIdAndUpdate(
-                req.session.user._id, {
-                    avatar: `/images/avatars/${req.file.filename}`
-                }, {
-                    new: true
-                }, (err, user) => {
+                let path = req.file.destination.split("public");
+                req.session.article = {
+                    profile: `${path[1]}/${req.file.filename}`
+                };
+
+                // res.redirect('/dashboard');
+            } else {
+
+                fs.unlink(path.join(__dirname, '../public', req.session.article.profile), err => {
                     if (err) {
-                        console.log("============>   ", 4);
+                        console.log(400);
                         res.status(500).json({
                             msg: 'Server Error!'
                         })
                     } else {
-                        console.log(user);
-                        if (req.session.user.avatar && req.session.user.avatar !== '/images/avatars/default.png') {
+                        let path = req.file.destination.split("public");
+                        req.session.article.profile = `${path[1]}/${req.file.filename}`;
 
-                            fs.unlink(path.join(__dirname, '../public', req.session.user.avatar), err => {
-                                if (err) {
-                                    console.log(400);
-                                    res.status(500).json({
-                                        msg: 'Server Error!'
-                                    })
-                                } else {
-                                    req.session.user = user;
-
-                                    res.redirect('/dashboard');
-                                }
-                            })
-
-
-                        } else {
-
-                            req.session.user = user;
-
-                            res.redirect('/dashboard');
-                        }
+                        // res.redirect('/dashboard');
                     }
                 })
+
+            }
         }
     })
 }
@@ -103,63 +93,107 @@ const articleImage = (req, res) => {
     })
 }
 
-
-
-
-// ? ---------------------------------< get All User >---------------------------- 
-const getAllUser = (req, res) => {
+// ? ---------------------------------< add New Article >---------------------------- 
+const addNewArticle = (req, res) => {
     console.log(1234);
-    User.find({}, (err, user) => {
-        if (err) {
-            return res.redirect(url.format({
-                pathname: "/api/auth/registerPage",
-                status: 500,
-                query: {
-                    "msg": "Server Error :("
-                }
-            }))
-        }
-        if (!user) {
-            return res.redirect(url.format({
-                pathname: "/api/auth/registerPage",
-                status: 400,
-                query: {
-                    "msg": 'Any User Not Exist :('
-                }
-            }));
+
+    // const upload = generalTools.uploadArticleImages.single('upload');
+    // console.log(1);
+    if (req.session.article === undefined) {
+        req.session.article = {
+            profile: '/articles/images/profiles/default.jpg'
         };
+    }
 
+    const newArticle = new Article({
+        title: req.body.title,
+        owner: req.session.user._id,
+        profile: req.session.article.profile,
 
-        res.json(user)
-
-
+    });
+    console.log(newArticle);
+    newArticle.save({}, (err, doc) => {
+        if (err) {
+            console.log(err);
+            if (err.code === 11000) {
+                return res.status(400).send("Duplicate item!")
+            }
+            return res.status(400).send("Server Error :(");
+        }
     })
+    req.session.article.id = newArticle;
+    res.json({
+        msg: "OK"
+    });
+
+
 }
 
-// ? ---------------------------------< Update User >---------------------------- 
-const UpdateUser = (req, res) => {
-    console.log(req.body);
+// ? ---------------------------------< Update Article >---------------------------- 
+const addText = (req, res) => {
 
-    User.findOneAndUpdate({
-        username: req.params.username.trim()
-    }, {
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
-        username: req.body.username.trim(),
-        sex: req.body.sex,
-        email: req.body.email,
-        phone_number: req.body.phone_number,
-        lastUpdate: new Date(),
-    }, {
-        new: true
-    }, (err, userUpdate) => {
-        console.log(err);
-        if (err) return res.status(500).json({
-            msg: "Server Error :)"
-        });
-        res.send("OK");
-    })
+    let path = `/articles/text/${req.session.user.username}-${Date.now()}.html`;
+    console.log(1);
+    // fs.createWriteStream(`../public${path}`, (err) => {
+    var from = fs.createWriteStream(`../public${path}`);
+    console.log(from);
+    from.once('open', function () {
+        from.write("from");
+        from.end();
+    });
+    console.log("==>", from)
+    try {
+        if (fs.existsSync(`../public${path}`)) {
+            console.log("The file/from.txt exists");
+        }
+    } catch (err) {
+        console.error(err)
+    }
+    console.log(200);
+    // if (err) return res.status(500).send("Server Error :/")
+
+    console.log(req.body.text);
+
+    fs.writeFile(`../public${path}`, req.body.text, function (err) {
+        if (err) return console.log(err);
+        console.log(32);
+        Article.findByIdAndUpdate(req.session.article.id, {
+            text: path,
+            summery: req.body.summery
+        }, (err, article) => {
+            if (err) {
+                return res.status(500).json({
+                    msg: "Server Error :(",
+                    err: err.msg
+                });
+            }
+            if (!article) {
+                return res.status(400).json({
+                    msg: "Article already not Exist :("
+                });
+            }
+            console.log(req.session);
+            if (article.text !== "") {
+                fs.unlink(path.join(__dirname, '../public', article.text), err => {
+                    if (err) {
+                        console.log(400);
+                        res.status(500).json({
+                            msg: 'Server Error!'
+                        })
+                    }
+                })
+            }
+
+        })
+        console.log('Saved!');
+    });
+
 }
+
+
+
+
+
 // ? ---------------------------------< Update Pass >---------------------------- 
 const UpdatePass = (req, res) => {
 
@@ -239,8 +273,8 @@ module.exports = {
     newArticle,
     articleprofile,
     articleImage,
-    // UpdateUser,
-    // UpdatePass,
+    addNewArticle,
+    addText,
     // UpdateUserAvatar,
     // uploadBackgrondAvatar,
 }

@@ -4,11 +4,18 @@ const essentialSchema = {
   trim: true,
 };
 
-const userSchema = new mongoose.Schema({
+const articleSchema = new mongoose.Schema({
   title: {
     ...essentialSchema,
     required: true,
-    default: 'Article'
+  },
+  summery: {
+    ...essentialSchema,
+    default: ''
+  },
+  text: {
+    ...essentialSchema,
+    default: ''
   },
   profile: {
     ...essentialSchema,
@@ -21,11 +28,11 @@ const userSchema = new mongoose.Schema({
   },
   createdAt: {
     type: Date,
-    default: Date.now
+    default: new Date(),
   },
   lastUpdate: {
     type: Date,
-    default: Date.now
+    default: new Date(),
   },
 
 })
@@ -33,4 +40,4 @@ const userSchema = new mongoose.Schema({
 
 
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('Article', articleSchema);
