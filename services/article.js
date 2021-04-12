@@ -1,6 +1,6 @@
 const path = require('path');
 const fs = require('fs');
-// const User = require(path.join(__dirname, '../models/User'));
+const User = require(path.join(__dirname, '../models/User'));
 const Article = require(path.join(__dirname, '../models/article'));
 const bcrypt = require('bcrypt');
 const generalTools = require('../tools/general-tools');
@@ -19,25 +19,26 @@ const newArticle = (req, res) => {
 const articleprofile = (req, res) => {
 
     const upload = generalTools.uploadArticleProfile.single('avatar');
-    console.log(1);
+
 
 
     upload(req, res, function (err) {
 
 
         if (err instanceof multer.MulterError) {
-            res.status(500).send('Server Error :/')
+            return res.status(500).send('Server Error :/')
 
         } else if (err) {
 
-            res.status(400).send("Bad Request!")
+            return res.status(400).send("Bad Request!")
 
         } else {
-            console.log(req.file);
-            console.log(req.session);
+
             if (req.session.article === undefined) {
 
                 let path = req.file.destination.split("public");
+                console.log(path[1]);
+                console.log(req.file.filename);
                 req.session.article = {
                     profile: `${path[1]}/${req.file.filename}`
                 };
@@ -47,8 +48,8 @@ const articleprofile = (req, res) => {
 
                 fs.unlink(path.join(__dirname, '../public', req.session.article.profile), err => {
                     if (err) {
-                        console.log(400);
-                        res.status(500).json({
+
+                        return res.status(500).json({
                             msg: 'Server Error!'
                         })
                     } else {
@@ -58,7 +59,6 @@ const articleprofile = (req, res) => {
                         // res.redirect('/dashboard');
                     }
                 })
-
             }
         }
     })
@@ -69,19 +69,18 @@ const articleprofile = (req, res) => {
 const articleImage = (req, res) => {
 
     const upload = generalTools.uploadArticleImages.single('upload');
-    console.log(1);
+
 
 
     upload(req, res, function (err) {
 
-        console.log(req.file);
 
         if (err instanceof multer.MulterError) {
-            res.status(500).send('Server Error :/')
+            return res.status(500).send('Server Error :/')
 
         } else if (err) {
 
-            res.status(400).send("Bad Request!")
+            return res.status(400).send("Bad Request!")
 
         } else {
             let path = req.file.destination.split("public");
@@ -95,13 +94,10 @@ const articleImage = (req, res) => {
 
 // ? ---------------------------------< add New Article >---------------------------- 
 const addNewArticle = (req, res) => {
-    console.log(1234);
 
-    // const upload = generalTools.uploadArticleImages.single('upload');
-    // console.log(1);
     if (req.session.article === undefined) {
         req.session.article = {
-            profile: '/articles/images/profiles/default.jpg'
+            profile: '/articles/profiles/default.jpg'
         };
     }
 
@@ -111,7 +107,7 @@ const addNewArticle = (req, res) => {
         profile: req.session.article.profile,
 
     });
-    console.log(newArticle);
+
     newArticle.save({}, (err, doc) => {
         if (err) {
             console.log(err);
@@ -121,7 +117,7 @@ const addNewArticle = (req, res) => {
             return res.status(400).send("Server Error :(");
         }
     })
-    req.session.article.id = newArticle;
+    req.session.article = newArticle;
     res.json({
         msg: "OK"
     });
@@ -132,39 +128,31 @@ const addNewArticle = (req, res) => {
 // ? ---------------------------------< Update Article >---------------------------- 
 const addText = (req, res) => {
 
-    let path = `/articles/text/${req.session.user.username}-${Date.now()}.html`;
-    console.log(1);
-    // fs.createWriteStream(`../public${path}`, (err) => {
-    var from = fs.createWriteStream(`../public${path}`);
-    console.log(from);
-    from.once('open', function () {
-        from.write("from");
-        from.end();
-    });
-    console.log("==>", from)
-    try {
-        if (fs.existsSync(`../public${path}`)) {
-            console.log("The file/from.txt exists");
+
+
+    let data = req.body.text
+
+    let Location = path.join(__dirname, '../public/articles/text');
+
+    let ArticleName = `${req.session.user.username}-${Date.now()}-article.html`;
+
+
+    fs.writeFile(`${Location}/${ArticleName}`, ` ${ data }`, function (err) {
+        if (err) {
+            return res.status(400).send("Server Error :(");
         }
-    } catch (err) {
-        console.error(err)
-    }
-    console.log(200);
-    // if (err) return res.status(500).send("Server Error :/")
 
-    console.log(req.body.text);
-
-    fs.writeFile(`../public${path}`, req.body.text, function (err) {
-        if (err) return console.log(err);
-        console.log(32);
-        Article.findByIdAndUpdate(req.session.article.id, {
-            text: path,
-            summery: req.body.summery
+        Article.findOneAndUpdate({
+            _id: req.session.article._id
+        }, {
+            text: `/articles/text/${ArticleName}`,
+            summery: req.body.summery.substring(0, 80)
         }, (err, article) => {
+
             if (err) {
+
                 return res.status(500).json({
-                    msg: "Server Error :(",
-                    err: err.msg
+                    msg: "Server Error :("
                 });
             }
             if (!article) {
@@ -172,80 +160,55 @@ const addText = (req, res) => {
                     msg: "Article already not Exist :("
                 });
             }
-            console.log(req.session);
             if (article.text !== "") {
                 fs.unlink(path.join(__dirname, '../public', article.text), err => {
                     if (err) {
-                        console.log(400);
                         res.status(500).json({
                             msg: 'Server Error!'
                         })
                     }
                 })
             }
+            res.send("ok");
 
-        })
-        console.log('Saved!');
-    });
 
+        });
+
+    })
 }
 
 
 
-
-
-// ? ---------------------------------< Update Pass >---------------------------- 
-const UpdatePass = (req, res) => {
-
+// ? ---------------------------------< my Articles Pass >---------------------------- 
+const myArticles = (req, res) => {
 
     User.findOne({
-        username: req.params.username.trim()
-    }, {}, {
-        new: true
+        _id: req.session.user._id
+    }, {
+        username: 1
     }, (err, user) => {
         if (err) return res.status(500).json({
-            msg: "Server Error :)"
+            msg: "Server Error :))"
         });
 
-        if (!user) {
-            return res.status(404).json({
-                msg: "Not Found :("
+        Article.find({}).populate('owner').exec((err, articles) => {
+            if (err) return res.status(500).json({
+                msg: "Server Error :)("
             });
-        };
 
-        // ! ------------------------------------- check pass
-        bcrypt.compare(req.body.oldPassword, user.password, function (err, isMatch) {
-
-            if (err) {
-                return res.redirect(url.format({
-                    pathname: "/login",
-                    query: {
-                        "msg": 'Server Error :('
-                    }
-                }));
+            if (!articles) {
+                return res.status(404).json({
+                    msg: "Not Found :("
+                });
             };
 
-            if (!isMatch) return res.status(400).json({
-                msg: "Bad Request :("
-            });
-            // ! ------------------------------- hash pass
-            User.findOneAndUpdate({
-                _id: user._id
-            }, {
-                password: req.body.newPassword
-            }, {
-                new: true
-            }, (err, employee) => {
-                if (err) return res.status(500).json({
-                    msg: "Server Error :)",
-                    err: err.msg
-                });
-                res.send("OK :)")
+            console.log(articles);
+            res.render('article/myarticles', {
+                articles
             })
 
-        });
 
-
+        })
 
     })
 }
@@ -275,6 +238,6 @@ module.exports = {
     articleImage,
     addNewArticle,
     addText,
-    // UpdateUserAvatar,
+    myArticles,
     // uploadBackgrondAvatar,
 }

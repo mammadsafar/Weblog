@@ -19,7 +19,7 @@ const articleSchema = new mongoose.Schema({
   },
   profile: {
     ...essentialSchema,
-    default: '/images/articles/images/profiles/default.jpg'
+    default: '/images/articles/profiles/default.jpg'
   },
   owner: {
     type: mongoose.Schema.ObjectId,

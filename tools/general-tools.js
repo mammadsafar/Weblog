@@ -138,7 +138,7 @@ generalTools.uploadArticleImages = multer({
 })
 
 
-// ? ---------------------------------< profile Article Images >---------------------------- 
+// ? ---------------------------------< profile Article >---------------------------- 
 const articleProfile = multer.diskStorage({
     destination: function (req, file, cb) {
         let a = path.join(__dirname, '/../public/articles/profiles');
