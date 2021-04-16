@@ -6,6 +6,7 @@ const logout = require('../controller/logout');
 const userData = require('../controller/userData');
 const dashboard = require('../controller/dashboard');
 const article = require('../controller/article');
+const public = require('../controller/public');
 const generalTools = require('../tools/general-tools');
 
 
@@ -21,6 +22,8 @@ router.use('/dashboard', generalTools.loginChecker, dashboard);
 router.use('/userData', userData);
 // ? ---------------------------------< article >---------------------------- 
 router.use('/article', generalTools.loginChecker, article);
+// ? ---------------------------------< All article >---------------------------- 
+router.use('/public', public);
 
 
 router.get('/', (req, res) => {

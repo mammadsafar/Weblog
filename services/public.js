@@ -9,11 +9,55 @@ const multer = require('multer');
 
 
 
-const newArticle = (req, res) => {
+const allArticle = (req, res) => {
     console.log("article/newArticle -----------");
-    res.render('article/newArticle');
+    res.render('article/allArticle');
 
 }
+
+
+// ? ---------------------------------< my Articles Pass >---------------------------- 
+const myArticles = (req, res) => {
+
+  res.render("article/myarticles")
+
+}
+// ? ---------------------------------< getMyArticle >---------------------------- 
+const getAllArticle = (req, res) => {
+
+  User.findOne({
+      _id: req.session.user._id
+  }, {
+      username: 1
+  }, (err, user) => {
+
+      if (err) return res.status(500).json({
+          msg: "Server Error :))"
+      });
+
+      Article.find({}).skip(parseInt(req.body.page) * parseInt(req.body.limit )- parseInt(req.body.limit)).limit(parseInt(req.body.limit)).populate('owner').sort('lastUpdate').exec((err, articles) => {
+          console.log(err);
+          if (err) return res.status(500).json({
+              msg: "Server Error :)("
+          });
+
+          if (!articles) {
+              return res.status(404).json({
+                  msg: "Not Found :("
+              });
+          };
+
+          console.log(articles);
+          res.json({
+              articles
+          })
+
+
+      })
+
+  })
+}
+
 
 // ? ---------------------------------< article profile >---------------------------- 
 const articleprofile = (req, res) => {
@@ -223,48 +267,7 @@ const addText = (req, res) => {
 }
 
 
-// ? ---------------------------------< my Articles Pass >---------------------------- 
-const myArticles = (req, res) => {
 
-    res.render("article/myarticles")
-
-}
-// ? ---------------------------------< getMyArticle >---------------------------- 
-const getMyArticle = (req, res) => {
-
-    User.findOne({
-        _id: req.session.user._id
-    }, {
-        username: 1
-    }, (err, user) => {
-
-        if (err) return res.status(500).json({
-            msg: "Server Error :))"
-        });
-console.log(typeof req.body.page);
-console.log(typeof req.body.limit);
-        Article.find({}).skip(parseInt(req.body.page) * parseInt(req.body.limit )- parseInt(req.body.limit)).limit(parseInt(req.body.limit)).populate('owner').sort('lastUpdate').exec((err, articles) => {
-            console.log(err);
-            if (err) return res.status(500).json({
-                msg: "Server Error :)("
-            });
-
-            if (!articles) {
-                return res.status(404).json({
-                    msg: "Not Found :("
-                });
-            };
-
-            console.log(articles);
-            res.json({
-                articles
-            })
-
-
-        })
-
-    })
-}
 
 
 // ? ---------------------------------< delet User >---------------------------- 
@@ -287,11 +290,11 @@ const deletUser = (req, res) => {
 
 
 module.exports = {
-    newArticle,
-    articleprofile,
-    articleImage,
-    addNewArticle,
-    addText,
-    myArticles,
-    getMyArticle,
+  allArticle,
+  getAllArticle,
+    // articleImage,
+    // addNewArticle,
+    // addText,
+    // myArticles,
+    // getMyArticle,
 }

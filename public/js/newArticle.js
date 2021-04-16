@@ -1,3 +1,4 @@
+console.log(12);
 $(document).ready(function () {
 
 
@@ -39,28 +40,123 @@ $(document).ready(function () {
 
 
 
+
+  $("body").on('click', '#save_article_profile_btn', () => {
+
+    console.log($('#article_avatar')[0]);
+
+    var image_file = $('#article_avatar')[0].files[0];
+
+    var data = new FormData();
+    data.append("avatar", $('#article_avatar')[0].files[0]);
+
+    $.ajax({
+      url: '/article/articleprofile',
+      type: 'POST',
+      data: data,
+      contentType: false,
+      processData: false,
+      success: function (status) {
+        console.log("success ==> ", status);
+      },
+      error: function (err) {
+        console.log("error ==> ", err);
+      }
+    });
+
+
+  })
+
+
+  $("#article_name").on("click", () => {
+    $("#article_name").attr('class', 'form-control')
+  })
+
+
   $("#save_btn").on('click', () => {
 
-    if ($("#article_name").val()){
-      $.ajax({
-        type: "POST",
-        url: "/article/addtitle",
-        data: {
-          title :$("#article_name").val(),
-        },
-        // dataType: "application/json",
-        success: function (response) {
-          send_article_text();
 
-        },
-    
-        error: function (err) {
-          console.log('cant save article name')
-        },
-      });
-
-
+    if (!$("#article_name").val()) {
+      return $("#article_name").attr('class', 'form-control is-invalid')
     }
+    if (!CKEDITOR.instances.editor1.getData()) {
+
+      const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+          confirmButton: 'btn btn-success',
+          cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+      })
+
+      return swalWithBootstrapButtons.fire({
+        title: 'You have not written any text for your article',
+        text: "Do you delete the article or continue?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, cancel!',
+        // reverseButtons: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+          swalWithBootstrapButtons.fire({
+            title: 'Are you shore',
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: `Yes`,
+            denyButtonText: `No!`,
+          }).then((result) => {
+            if (result.isConfirmed) {
+              window.location.href = "myarticles";
+            }
+          })
+        }
+      })
+
+
+
+      // return  Swal.fire({
+      //   icon: 'error',
+      //   title: 'Oops...',
+      //   text: 'Something went wrong!',
+      // })
+    }
+
+    $.ajax({
+      type: "POST",
+      url: "/article/addNewArticle",
+      data: {
+        title: $("#article_name").val(),
+        text: CKEDITOR.instances.editor1.getData(),
+        summery: CKEDITOR.instances.editor1.document.getBody().getText(),
+      },
+      // dataType: "application/json",
+      success: function (response) {
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Saved Article has successfully',
+          showConfirmButton: false,
+          timer: 1500
+        })
+        console.log($('#article_avatar')[0].files[0]);
+        if ($('#article_avatar')[0].files[0]) {
+          console.log("ok");
+          return send_article_avatar();
+        } else {
+
+          window.location.href = "myArticle";
+        }
+
+
+
+      },
+
+      error: function (err) {
+
+      },
+    });
+
 
 
   })
@@ -68,26 +164,32 @@ $(document).ready(function () {
 
 
 
-function send_article_text(){
+  function send_article_avatar() {
 
 
-  $.ajax({
-    type: "POST",
-    url: "/article/addText",
-    data: {
-      text :CKEDITOR.instances.editor1.getData(),
-      summery: CKEDITOR.instances.editor1.document.getBody().getText(),
-    },
-    // dataType: "application/json",
-    success: function (response) {
-      console.log("saved");
-    },
+    if ($('#article_avatar')[0].files[0]) {
 
-    error: function (err) {
-      console.log('cant save text')
-    },
-  });
-}
+      var image_file = $('#article_avatar')[0].files[0];
+
+      var data = new FormData();
+      data.append("avatar", $('#article_avatar')[0].files[0]);
+
+      $.ajax({
+        url: '/article/articleprofile',
+        type: 'POST',
+        data: data,
+        contentType: false,
+        processData: false,
+        success: function (status) {
+          window.location.href = "article/myArticle";
+        },
+        error: function (err) {
+          window.location.href = "article/myArticle";
+        }
+      });
+    }
+
+  }
 
 
 

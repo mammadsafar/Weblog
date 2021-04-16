@@ -8,15 +8,15 @@ const {
     addNewArticle,
     addText,
     myArticles,
-    // uploadBackgrondAvatar,
+    getMyArticle,
 } = require("../services/article");
 
 router.get('/new', newArticle)
 router.post('/articleprofile', articleprofile);
 router.post('/articleImage', articleImage);
-router.post('/addtitle', addNewArticle);
+router.post('/addNewArticle', addNewArticle);
 router.post('/addText', addText);
 router.get('/myArticles', myArticles);
-// router.put('/:username', UpdateUser);
+router.post('/getMyArticle', getMyArticle);
 // router.post('/background_cover', uploadBackgrondAvatar);
 module.exports = router;
