@@ -1,28 +1,30 @@
 $(document).ready(function () {
 
 
-  let user;
+  function get_articles(get_page, get_limit) {
+    $.ajax({
+      type: "POST",
+      url: "/article/getMyArticle",
+      data: {
+        page: get_page,
+        limit: get_limit
+      },
+      success: function (response) {
 
-  $.ajax({
-    type: "POST",
-    url: "/article/getMyArticle",
-    data: {
-      page: 1,
-      limit: 3
-    },
-    success: function (response) {
+        article = response[0];
+        console.log(response);
+        show_article(response.articles);
 
-      article = response[0];
-      console.log(response);
-      show_article(response.articles);
+      },
 
-    },
+      error: function (err) {
+        console.log('Data not found')
+      },
+    });
 
-    error: function (err) {
-      console.log('Data not found')
-    },
-  });
+  }
 
+  get_articles(1, 3);
 
 
   $("#save_btn").on('click', () => {
@@ -59,13 +61,13 @@ $(document).ready(function () {
 
 
   function show_article(articles) {
-    console.log(articles);
-    if(articles !== null){
+    // $("#container").html("");
+    if (articles !== null) {
 
-      for (let i = 0 ; i < articles.length; i++ ) {
+      for (let i = 0; i < articles.length; i++) {
         let art = `     
           
-          <section class="blog-card mb-4 mb-lg-5">
+          <section class="blog-card mb-4 mb-lg-5 col-5 articleShow">
             <div class="card shadow-sm border-light px-0 py-3 p-md-4">
               <div class="card-body py-2">
                 <div class="font-small mb-3"> <span>By</span>
@@ -87,7 +89,7 @@ $(document).ready(function () {
                 </a>
                 <a href="https://themesberg.com/blog/django/user-profile-tutorial" class="d-block mb-0 mb-lg-2 mt-1">
                   <img
-                    class="blog-img card-img-top lazy loaded"
+                    class="blog-img card-img-top lazy loaded" style=" height:400px; width:400px;"
                     src="${articles[i].profile}">
                 </a>
                 <p class="mb-0 mb-lg-4">${articles[i].summery}</p>
@@ -100,38 +102,91 @@ $(document).ready(function () {
                       View
                     </a>
                   </div>
+                  <div class="btn-group me-2 mb-2">
+                  <a href="/article/read${articles[i]._id}" class="btn btn-dark">More</a> <button type="button" 
+                  class="btn btn-dark dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true"
+                  aria-expanded="false"><span class="fas fa-angle-down dropdown-arrow"></span> <span class="sr-only">Toggle
+                    Dropdown</span></button>
+                <div class="dropdown-menu" style="">
+                <a class="dropdown-item rounded-bottom fw-bold" id="delete_account_btn" href="/article/read${articles[i]._id}"><span class="fa fa-address-book-o " aria-hidden="true"></span>Read </a>
+                <a class="dropdown-item rounded-bottom fw-bold" id="delete_account_btn" href="/article/edit${articles[i]._id}"><span class="fa fa-pencil-square-o " aria-hidden="true"></span>Edit </a>
+                  <div class="dropdown-divider"></div>
+                  <button class="dropdown-item rounded-bottom fw-bold" id="delete_account_btn" onclick="delete_article('${articles[i]._id}')"><span class="fas fa-trash-alt text-danger" aria-hidden="true"></span>Delete </button>
                 </div>
-              </div>
+              </div>              </div>
             </div>
           </section>
         `
-  
+
         $("#container").append(art);
-  
+
       };
     }
 
 
 
-}
-
-
-function showArticle(articles) {
-
-}
+  }
 
 
 
-$("#logout_btn").on('click', () => {
+  function pagination() {
+    console.log(this);
 
-  logout()
+  }
 
+  $(".articleShow").on('click', () => {
+
+    console.log(this);
+
+  })
+
+  $("#logout_btn").on('click', () => {
+
+    logout()
+
+  })
+
+
+  function logout() {
+    $.ajax({
+      type: "GET",
+      url: "/logout",
+      // dataType: "application/json",
+      success: function (response) {
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Sign Out',
+          showConfirmButton: false,
+          timer: 1500
+        })
+        window.location.reload();
+      },
+
+      error: function (err) {
+        Swal.fire({
+          position: 'top-end',
+          icon: 'error',
+          title: `${err.message}`,
+          showConfirmButton: false,
+          timer: 1500
+        })
+
+      },
+    });
+  }
+
+
+
+  
+  
 })
 
-function logout() {
+function delete_article(id){
+
   $.ajax({
-    type: "GET",
-    url: "/logout",
+    type: "DELETE",
+    url: `/article/delete${id}`,
     // dataType: "application/json",
     success: function (response) {
       Swal.fire({
@@ -155,6 +210,7 @@ function logout() {
 
     },
   });
+
+
 }
 
-})

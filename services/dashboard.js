@@ -86,10 +86,12 @@ const UpdatePass = (req, res) => {
             });
         };
 
+        console.log(req.body);
         // ! ------------------------------------- check pass
         bcrypt.compare(req.body.oldPassword, user.password, function (err, isMatch) {
 
             if (err) {
+                console.log(err);
                 return res.redirect(url.format({
                     pathname: "/login",
                     query: {
@@ -157,7 +159,6 @@ const UpdateUserAvatar = (req, res) => {
             res.status(400).send("Bad Request!")
 
         } else {
-console.log(req.file);
             User.findByIdAndUpdate(
                 req.session.user._id, {
                     avatar: `/images/avatars/${req.file.filename}`
@@ -208,7 +209,7 @@ const uploadBackgrondAvatar = (req, res) => {
 
 
     upload(req, res, function (err) {
-
+        console.log(err);
 
         if (err instanceof multer.MulterError) {
             res.status(500).send('Server Error :/')
@@ -218,7 +219,7 @@ const uploadBackgrondAvatar = (req, res) => {
             res.status(400).send("Bad Request!")
 
         } else {
-
+            console.log(1);
             User.findByIdAndUpdate(
                 req.session.user._id, {
                     background_cover: `/images/background_cover/${req.file.filename}`

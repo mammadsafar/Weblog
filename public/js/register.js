@@ -25,7 +25,8 @@ $(document).ready(function () {
     })
 
     $("#register_btn").on('click', () => {
-        console.log(123);
+        console.log($('#terms').is(':checked'));
+        // $('#remember').is(':checked') === true
 
         /*
         username
@@ -60,44 +61,57 @@ $(document).ready(function () {
 
         if (check_input(array) === true) {
 
-            let user = {
+            if ($('#terms').is(':checked') === false) {
 
-                username: $("#username").val(),
-                email: $("#email").val(),
-                password: $("#password").val()
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'error',
+                    title: 'You should agree to the terms and conditions',
+                    showConfirmButton: false,
+                })
 
+            } else {
+
+
+                let user = {
+
+                    username: $("#username").val(),
+                    email: $("#email").val(),
+                    password: $("#password").val()
+
+                }
+
+
+                // console.log("ok");
+
+                $.ajax({
+                    type: "POST",
+                    url: "/register",
+                    data: user,
+                    // dataType: "application/json",
+                    success: function (response) {
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: 'SignUp successfuly',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                        window.location.href = "login";
+                    },
+
+                    error: function (err) {
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: 'This user or email not valid',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+
+                    },
+                });
             }
-
-
-            // console.log("ok");
-
-            $.ajax({
-                type: "POST",
-                url: "/register",
-                data: user,
-                // dataType: "application/json",
-                success: function (response) {
-                    Swal.fire({
-                        position: 'top-end',
-                        icon: 'success',
-                        title: 'SignUp successfuly',
-                        showConfirmButton: false,
-                        timer: 1500
-                    })
-                    window.location.href = "login";
-                },
-
-                error: function (err) {
-                    Swal.fire({
-                        position: 'top-end',
-                        icon: 'error',
-                        title: 'This user or email not valid',
-                        showConfirmButton: false,
-                        timer: 1500
-                    })
-
-                },
-            });
         }
 
     })
@@ -128,7 +142,7 @@ function check_input(array) {
             })
             return false;
         }
-        if ($(password).val().length < 8 ) {
+        if ($(password).val().length < 8) {
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',

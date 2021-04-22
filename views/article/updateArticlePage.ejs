@@ -130,7 +130,8 @@
 
 
         <li class="nav-item ">
-          <a href="/public/allArticle" target="_blank" class="nav-link d-flex justify-content-between">
+          <a href="/public/allArticle" target="_blank"
+            class="nav-link d-flex justify-content-between">
             <span>
               <span class="sidebar-icon"><span class="fas fa-newspaper"></span></span>
               <span class="sidebar-text">All Article</span>
@@ -150,18 +151,18 @@
           </span>
           <div class="multi-level collapse show" role="list" id="submenu-app" aria-expanded="false">
             <ul class="flex-column nav">
-              <li class="nav-item ">
+              <li class="nav-item active">
                 <a class="nav-link" href="/article/new">
                   <span class="sidebar-text">New Article</span>
                 </a>
               </li>
-              <li class="nav-item active">
+              <li class="nav-item ">
                 <a class="nav-link" href="/article/myArticles">
                   <span class="sidebar-text">My Articles</span>
                 </a>
               </li>
               <li class="nav-item ">
-                <a class="nav-link" href="/article/allArticles">
+                <a class="nav-link" href="/public/allArticle">
                   <span class="sidebar-text">All Article</span>
                 </a>
               </li>
@@ -246,16 +247,15 @@
               <a class="nav-link dropdown-toggle pt-1 px-0" href="#" role="button" data-bs-toggle="dropdown"
                 aria-expanded="false">
                 <div class="media d-flex align-items-center">
-                  <img class="user-avatar md-avatar rounded-circle" id="avatar_show" alt="Image placeholder"
-                    src="/images/avatars/default.png">
+                  <img class="user-avatar md-avatar rounded-circle"  id="avatar_show"alt="Image placeholder"
+                    src="/assets/img/team/profile-picture-3.jpg">
                   <div class="media-body ms-2 text-dark align-items-center d-none d-lg-block">
-                    <span class="mb-0 font-small fw-bold name_show">Bonnie Green</span>
+                    <span class="mb-0 font-small fw-bold" id="name_show">Bonnie Green</span>
                   </div>
                 </div>
               </a>
               <div class="dropdown-menu dashboard-dropdown dropdown-menu-end mt-2 py-0">
-                <a class="dropdown-item rounded-top fw-bold" href="/dashboard"><span
-                    class="far fa-user-circle"></span>My
+                <a class="dropdown-item rounded-top fw-bold" href="/dashboard"><span class="far fa-user-circle"></span>My
                   Profile</a>
                 <a class="dropdown-item fw-bold" href="#"><span class="fas fa-cog"></span>Settings</a>
                 <a class="dropdown-item fw-bold" href="#"><span class="fas fa-envelope-open-text"></span>Messages</a>
@@ -272,34 +272,46 @@
 
 
 
-    <div class="card card-body shadow-sm table-wrapper table-responsive d-flex justify-content-between" id="container">
+    <div class="card card-body shadow-sm table-wrapper table-responsive">
 
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4 ">
 
-      <!-- !  -----------------------< CURD >---------------------- -->
-
-
-   
-
-
-
-
-
-      <!-- !  -----------------------< PAGINATION >---------------------- -->
-
-      <div class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
-        <nav aria-label="Page navigation example">
-          <ul class="pagination mb-0" id="pagination">
-            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item active"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">4</a></li>
-            <li class="page-item"><a class="page-link" href="#">5</a></li>
-            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-          </ul>
-        </nav>
-        <div class="fw-normal small mt-4 mt-lg-0">Showing <b>5</b> out of <b>25</b> entries</div>
+        <div class="mb-4 col-5">
+          <label for="text">
+            Article Name *
+          </label>
+          <input type="text" class="form-control" id="article_name" aria-describedby="textHelp">
+        </div>
+        <div class="col-5">
+          <!-- <form action="/article/articleprofile" method="post" enctype="multipart/form-data"> -->
+            <div class="mb-3">
+              <label for="formFile" class="form-label">Select profile photo</label>
+              <input class="form-control" type="file" name="avatar" id="article_avatar">
+          </div>
+           
+          <!-- </form> -->
+        </div>
+        <button class="btn btn-success" type="button" id="save_btn">Save</button>
       </div>
+      <!-- CKEditor -->
+      <script src="//cdn.ckeditor.com/4.16.0/full/ckeditor.js"></script>
+
+        <textarea name="editor1" id="editor1" rows="10" cols="80">
+
+      
+        </textarea>
+        <script>
+          // Replace the <textarea id="editor1"> with a CKEditor 4
+          // instance, using default configuration.
+          CKEDITOR.replace('editor1', {
+
+            filebrowserUploadUrl: '/article/articleImage'
+          });
+        </script>
+
+
+
+
     </div>
 
 
@@ -378,7 +390,7 @@
   <script src="/assets/js/volt.js"></script>
 
   <!-- newArticle JS -->
-  <script src="/js/myArticle.js"></script>
+  <script src="/js/updateArticlePage.js"></script>
 
 
 </body>

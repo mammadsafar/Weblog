@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const mongoosePaginate = require('mongoose-paginate-v2');
+
 const essentialSchema = {
   type: String,
   trim: true,
@@ -38,6 +38,18 @@ const articleSchema = new mongoose.Schema({
 
 })
 
-articleSchema.plugin(mongoosePaginate);
+
+
+
+articleSchema.pre('save', function (next) {
+  const article = this;
+  if (this.isNew || this.isModified('title') || this.isModified('summery') || this.isModified('text') || this.isModified('profile')) {
+    article.lastUpdate =  new Date() ;
+  } else {
+      return next();
+  };
+});
+
+
 
 module.exports = mongoose.model('Article', articleSchema);

@@ -25,9 +25,10 @@ $(document).ready(function () {
         success: function (response) {
             user = response[0];
 
-            // console.log(user);
 
-            $(".avatar_cover").attr('data-background', `${user.background_cover}`)
+            $("#avatar_background_cover").attr('style', `background: url("${user.background_cover}")`)
+
+            $("#cover").attr('src', `${user.background_cover}`)
 
             $(".avatar_show").attr('src', `${user.avatar}`)
 
@@ -340,8 +341,8 @@ $(document).ready(function () {
         if (check_input(array) === true) {
             let pass = {
                 username: user.username,
-                oldPassword: $("#oldPass_input").val(),
-                newPassword: $("#newPass_input").val()
+                oldPassword: $("#old_pass").val(),
+                newPassword: $("#new_pass").val()
             }
             console.log(pass);
             $.ajax({
@@ -353,7 +354,7 @@ $(document).ready(function () {
                     Swal.fire({
                         position: 'top-end',
                         icon: 'success',
-                        title: 'Cange pass was successfuly',
+                        title: 'Change pass was successfully',
                         showConfirmButton: false,
                         timer: 1500
                     })
@@ -364,7 +365,7 @@ $(document).ready(function () {
                     Swal.fire({
                         position: 'top-end',
                         icon: 'error',
-                        title: `you can not cange password`,
+                        title: `you can not change password`,
                         showConfirmButton: false,
                         timer: 1500
                     })
@@ -376,36 +377,96 @@ $(document).ready(function () {
 
 
 
-    // $("body").on('click', '#new_avatar_btn', function () {
-    //     console.log($("#new_avatar").val());
-    //     $.ajax({
-    //         type: "POST",
-    //         url: "/dashboard/avatar",
-    //         data:$("#new_avatar").val(),
-    //         dataType: "multipart/form-data",
-    //         success: function (response) {
-    //             Swal.fire({
-    //                 position: 'top-end',
-    //                 icon: 'success',
-    //                 title: 'OK',
-    //                 showConfirmButton: false,
-    //                 timer: 1500
-    //             })
-    //             window.location.reload();
-    //         },
+    $("body").on('click', '#new_avatar_btn', function () {
+        if ($('#new_avatar')[0].files[0]) {
+            send_article_avatar();
+        }
+    })
 
-    //         error: function (err) {
-    //             Swal.fire({
-    //                 position: 'top-end',
-    //                 icon: 'error',
-    //                 title: `${err.message}-ll`,
-    //                 showConfirmButton: false,
-    //                 timer: 15000
-    //             })
 
-    //         },
-    //     });
-    // })
+    function send_article_avatar() {
+        var data = new FormData();
+        data.append("avatar", $('#new_avatar')[0].files[0]);
+
+        $.ajax({
+            url: '/dashboard/avatar',
+            type: 'POST',
+            data: data,
+            contentType: false,
+            processData: false,
+            success: function (status) {
+                Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Change Avatar was successfully',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                window.location.reload();
+            },
+            error: function (err) {
+                 Swal.fire({
+                        position: 'top-end',
+                        icon: 'error',
+                        title: `you can not change Avatar`,
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                window.location.reload();
+            }
+        });
+
+
+    }
+
+
+
+
+
+    $("body").on('click', '#background_cover_btn', function () {
+        if ($('#background_cover_input')[0].files[0]) {
+            send_article_avatar();
+        }
+    })
+
+
+    function send_article_avatar() {
+
+
+
+
+        var data = new FormData();
+        data.append("background_cover", $('#background_cover_input')[0].files[0]);
+
+        $.ajax({
+            url: '/dashboard/background_cover',
+            type: 'POST',
+            data: data,
+            contentType: false,
+            processData: false,
+            success: function (status) {
+                Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Change background cover was successfully',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                window.location.reload();
+            },
+            error: function (err) {
+                 Swal.fire({
+                        position: 'top-end',
+                        icon: 'error',
+                        title: `you can not change background cover`,
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+            }
+        });
+
+
+    }
 
 
 

@@ -7,30 +7,13 @@ $(document).ready(function () {
   $.ajax({
     type: "GET",
     url: "/userData/getUser",
-    // dataType: "application/json",
     success: function (response) {
       user = response[0];
 
-      // console.log(user);
-
-      // $(".avatar_cover").attr('data-background', `${user.background_cover}`)
-
       $("#avatar_show").attr('src', `${user.avatar}`)
 
-      // $("#username_show").html(`@${user.username}`)
       $("#name_show").html(`${user.firstname} ${user.lastname}`)
-      // $("#email_show").html(`${user.email}`)
-      // $("#gender_show").html(`${user.sex}`)
-      // // $("#birthday").html(`${user.createAt}`)
-      // $("#phonenumber_show").html(`${user.phone_number}`)
 
-
-      // $("#first_name").attr('value', `${user.firstname}`)
-      // $("#last_name").attr('value', `${user.lastname}`)
-      // $("#email").attr('value', `${user.email}`)
-      // $("#phone").attr('value', `${user.phone_number}`)
-
-      // $("#gender").attr('value', `${user.avatar}`)
     },
 
     error: function (err) {
@@ -40,32 +23,6 @@ $(document).ready(function () {
 
 
 
-
-  $("body").on('click', '#save_article_profile_btn', () => {
-
-    console.log($('#article_avatar')[0]);
-
-    var image_file = $('#article_avatar')[0].files[0];
-
-    var data = new FormData();
-    data.append("avatar", $('#article_avatar')[0].files[0]);
-
-    $.ajax({
-      url: '/article/articleprofile',
-      type: 'POST',
-      data: data,
-      contentType: false,
-      processData: false,
-      success: function (status) {
-        console.log("success ==> ", status);
-      },
-      error: function (err) {
-        console.log("error ==> ", err);
-      }
-    });
-
-
-  })
 
 
   $("#article_name").on("click", () => {
@@ -139,13 +96,11 @@ $(document).ready(function () {
           showConfirmButton: false,
           timer: 1500
         })
-        console.log($('#article_avatar')[0].files[0]);
         if ($('#article_avatar')[0].files[0]) {
-          console.log("ok");
           return send_article_avatar();
         } else {
 
-          window.location.href = "myArticle";
+          window.location.href = "myArticles";
         }
 
 
@@ -169,8 +124,6 @@ $(document).ready(function () {
 
     if ($('#article_avatar')[0].files[0]) {
 
-      var image_file = $('#article_avatar')[0].files[0];
-
       var data = new FormData();
       data.append("avatar", $('#article_avatar')[0].files[0]);
 
@@ -181,10 +134,10 @@ $(document).ready(function () {
         contentType: false,
         processData: false,
         success: function (status) {
-          window.location.href = "article/myArticle";
+          window.location.href = "myArticles";
         },
         error: function (err) {
-          window.location.href = "article/myArticle";
+          window.location.href = "myArticles";
         }
       });
     }

@@ -28,7 +28,6 @@ $(document).ready(function () {
                     icon: 'error',
                     title: 'This user or password is invalid',
                     showConfirmButton: false,
-                    timer: 1500
                 })
 
             },

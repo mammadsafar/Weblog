@@ -38,21 +38,11 @@ const loggedInUser = (req, res) => {
         bcrypt.compare(req.body.password, user.password, function (err, isMatch) {
 
             if (err) {
-                return res.redirect(url.format({
-                    pathname: "/login",
-                    query: {
-                        "msg": 'Server Error :('
-                    }
-                }));
+                return res.status(500).json({msg : "Server Error"});
             };
 
-            if (!isMatch) return res.redirect(url.format({
-                pathname: "/login",
-                query: {
-                    "msg": 'User Not Found :('
-                }
-            }));
-            // console.log("5");
+            if (!isMatch) return res.status(404).json({msg : "User Not Found!"});
+                        // console.log("5");
             req.session.user = user;
             // console.log(req.session);
             // console.log(req.session.user);

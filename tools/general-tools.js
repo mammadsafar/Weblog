@@ -19,6 +19,20 @@ generalTools.loginChecker = (req, res, next) => {
 };
 
 
+generalTools.updateArticleChecker = (req, res, next) => {
+    if (!req.session.user) {
+        return res.redirect('/login')
+    };
+
+    // return next();
+};
+
+
+
+
+
+
+
 // ? ---------------------------------< avatar Images >---------------------------- 
 
 const avatarStorage = multer.diskStorage({
@@ -83,8 +97,7 @@ generalTools.uploadBackgrondAvatar = multer({
     }
 })
 
-//CHECK TYPE OF UPLOADING FILE
-function checkFile(file, cb) { //allowed ectentions
+function checkFile(file, cb) { 
     // Allowed ext
     const filetypes = /jpeg|jpg|png/g;
     // Check ext

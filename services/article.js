@@ -2,15 +2,14 @@ const path = require('path');
 const fs = require('fs');
 const User = require(path.join(__dirname, '../models/User'));
 const Article = require(path.join(__dirname, '../models/article'));
-const bcrypt = require('bcrypt');
 const generalTools = require('../tools/general-tools');
 const multer = require('multer');
 
 
 
 
+
 const newArticle = (req, res) => {
-    console.log("article/newArticle -----------");
     res.render('article/newArticle');
 
 }
@@ -54,32 +53,6 @@ const articleprofile = (req, res) => {
             });
 
 
-
-            // if (req.session.article.profile === "/images/articles/profiles/default.jpg") {
-
-            //     let path = req.file.destination.split("public");
-            //     console.log(path[1]);
-            //     console.log(req.file.filename);
-            //     req.session.article = `${path[1]}/${req.file.filename}`;
-            //     console.log(req.session.article);
-
-            //     // res.redirect('/dashboard');
-            // } else {
-
-            //     fs.unlink(path.join(__dirname, '../public', req.session.article.profile), err => {
-            //         if (err) {
-
-            //             return res.status(500).json({
-            //                 msg: 'Server Error!'
-            //             })
-            //         } else {
-            //             let path = req.file.destination.split("public");
-            //             req.session.article.profile = `${path[1]}/${req.file.filename}`;
-
-            //             // res.redirect('/dashboard');
-            //         }
-            //     })
-            // }
         }
     })
 }
@@ -168,61 +141,6 @@ const addNewArticle = (req, res) => {
 
 }
 
-// ? ---------------------------------< Add Text Article >---------------------------- 
-const addText = (req, res) => {
-
-
-
-    let data = req.body.text
-
-    let Location = path.join(__dirname, '../public/articles/text');
-
-    let ArticleName = `${req.session.user.username}-${Date.now()}-article.html`;
-
-
-    fs.writeFile(`${Location}/${ArticleName}`, ` ${ data }`, function (err) {
-        if (err) {
-            return res.status(400).send("Server Error :(");
-        }
-
-        Article.findOneAndUpdate({
-            _id: req.session.article._id
-        }, {
-            text: `/articles/text/${ArticleName}`,
-            summery: req.body.summery.substring(0, 80)
-        }, (err, article) => {
-
-            if (err) {
-
-                return res.status(500).json({
-                    msg: "Server Error :("
-                });
-            }
-            if (!article) {
-                return res.status(400).json({
-                    msg: "Article already not Exist :("
-                });
-            }
-            if (article.text !== "") {
-                fs.unlink(path.join(__dirname, '../public', article.text), err => {
-                    if (err) {
-                        res.status(500).json({
-                            msg: 'Server Error!'
-                        })
-                    }
-                })
-            }
-            res.send("ok");
-
-
-        });
-
-    })
-
-
-}
-
-
 // ? ---------------------------------< my Articles Pass >---------------------------- 
 const myArticles = (req, res) => {
 
@@ -241,10 +159,8 @@ const getMyArticle = (req, res) => {
         if (err) return res.status(500).json({
             msg: "Server Error :))"
         });
-console.log(typeof req.body.page);
-console.log(typeof req.body.limit);
-        Article.find({}).skip(parseInt(req.body.page) * parseInt(req.body.limit )- parseInt(req.body.limit)).limit(parseInt(req.body.limit)).populate('owner').sort('lastUpdate').exec((err, articles) => {
-            console.log(err);
+
+        Article.find({}).skip(parseInt(req.body.page) * parseInt(req.body.limit) - parseInt(req.body.limit)).limit(parseInt(req.body.limit)).populate('owner').sort('lastUpdate').exec((err, articles) => {
             if (err) return res.status(500).json({
                 msg: "Server Error :)("
             });
@@ -255,7 +171,6 @@ console.log(typeof req.body.limit);
                 });
             };
 
-            console.log(articles);
             res.json({
                 articles
             })
@@ -266,20 +181,190 @@ console.log(typeof req.body.limit);
     })
 }
 
+// ? ---------------------------------< get one Article >---------------------------- 
+const getOneArticle = (req, res) => {
 
-// ? ---------------------------------< delet User >---------------------------- 
-const deletUser = (req, res) => {
-
-    User.findOneAndDelete({
-        username: req.params.username.trim()
+    User.findOne({
+        _id: req.session.user._id
+    }, {
+        username: 1
     }, (err, user) => {
+
         if (err) return res.status(500).json({
-            msg: "Server Error :)",
-            err: err.msg
+            msg: "Server Error :))"
         });
 
-        res.send("ok");
+        Article.find({
+            _id: req.params.id
+        }).populate('owner').exec((err, article) => {
+            if (err) return res.status(500).json({
+                msg: "Server Error :)("
+            });
+
+            if (!article) {
+                return res.status(404).json({
+                    msg: "Not Found :("
+                });
+            };
+
+
+
+
+
+            fs.readFile(path.join(__dirname, '../public', article.text, function read(err, data) {
+                if (err) {
+                    return res.status(404).json({
+                        msg: "Not Found :("
+                    });
+                }
+                const content = data;
+
+
+                console.log(content);
+                
+                res.json({
+                    title: article.title,
+                    text: content,
+                    avatar: article.profile
+                })
+            }));
+
+
+
+
+
+        })
+
     })
+}
+
+
+// ? ---------------------------------< delete User >---------------------------- 
+const deleteArticle = (req, res) => {
+
+    User.findOne({
+        _id: req.session.user._id
+    }, {
+        username: 1
+    }, (err, user) => {
+        if (err) return res.status(500).json({
+            msg: "Server Error :))"
+        });
+
+        Article.findOne({
+            _id: req.params.id
+        }).populate('owner').exec((err, articles) => {
+            if (err) return res.status(500).json({
+                msg: "Server Error :)"
+            });
+
+            if (!articles) {
+                return res.status(404).json({
+                    msg: "Not Found :("
+                });
+            } else {
+
+                Article.findOneAndDelete({
+                    _id: req.params.id
+                }, (err, user) => {
+                    if (err) return res.status(500).json({
+                        msg: "Server Error :)"
+                    });
+
+                    res.send("ok");
+                })
+
+            }
+
+
+
+
+        })
+
+    })
+
+
+
+
+
+}
+
+
+// ? ---------------------------------< article page >---------------------------- 
+
+const updateArticlePage = (req, res) => {
+    res.render('article/updateArticlePage');
+
+}
+// ? ---------------------------------< update Article >---------------------------- 
+const updateArticle = (req, res) => {
+
+
+    fs.unlink(path.join(__dirname, '../public', req.session.article.text), err => {
+        if (err) {
+            console.log(400);
+            res.status(500).json({
+                msg: 'Server Error!'
+            })
+        }
+        console.log("delete complete");
+    })
+
+
+
+    console.log("create new article");
+
+    let data = req.body.text
+
+    let Location = path.join(__dirname, '../public/articles/text');
+
+    let ArticleName = `${req.session.user.username}-${Date.now()}-article.html`;
+
+
+    fs.writeFile(`${Location}/${ArticleName}`, ` ${ data }`, function (err) {
+        if (err) {
+            return res.status(400).send("Server Error :(");
+        }
+
+
+        const obj = {
+
+            title: req.body.title,
+            text: `/articles/text/${ArticleName}`,
+            summery: req.body.summery.substring(0, 80)
+
+        }
+        // !---------- < delete empty field in object > ------------
+        for (const key in obj) {
+            if (!obj[key]) {
+                delete obj[key]
+            }
+        }
+
+
+
+        Article.findOneAndUpdate({
+            _id: req.body._id
+        }, obj, {
+            new: true
+        }, (err, articleUpdate) => {
+            console.log(err);
+            if (err) return res.status(500).json({
+                msg: "Server Error :)"
+            });
+
+            console.log("ok");
+            req.session.article = articleUpdate;
+            console.log(req.session.article);
+            res.status(200).send("Updated article");
+        })
+
+
+
+
+    })
+
+
 
 }
 
@@ -291,7 +376,10 @@ module.exports = {
     articleprofile,
     articleImage,
     addNewArticle,
-    addText,
     myArticles,
     getMyArticle,
+    getOneArticle,
+    deleteArticle,
+    updateArticle,
+    updateArticlePage
 }

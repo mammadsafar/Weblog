@@ -336,7 +336,7 @@
 
           <!-- ?    ---------------------------------< Form >--------------------------->
 
-          <form action="/dashboard/avatar" method="post" enctype="multipart/form-data">
+          <!-- <form action="/dashboard/avatar" method="post" enctype="multipart/form-data"> -->
             <div class="col-12">
               <div class="card card-body shadow-sm mb-4">
                 <h2 class="h5 mb-4">Select profile photo</h2>
@@ -351,21 +351,21 @@
                     <div class="d-flex justify-content-xl-center ms-xl-3">
                       <div class="d-flex">
                         <span class="icon icon-md"><span class="fas fa-paperclip me-3"></span></span>
-                        <input type="file" name="avatar">
+                        <input type="file" name="avatar" id="new_avatar">
                         <div class="d-md-block text-left">
                           <div class="fw-normal text-dark mb-1">Choose Image</div>
                           <div class="text-gray small">JPG, GIF or PNG. Max size of 800K</div>
                         </div>
                       </div>
                     </div>
-                    <input class="btn btn-sm btn-dark" type="submit" value="submit">Save</input>
+                    <input class="btn btn-sm btn-dark" type="submit" value="submit" id="new_avatar_btn">Save</input>
                   </div>
                 </div>
               </div>
             </div>
-          </form>
+          <!-- </form> -->
 
-          <form action="/dashboard/background_cover" method="post" enctype="multipart/form-data">
+          <!-- <form action="/dashboard/background_cover" method="post" enctype="multipart/form-data"> -->
             <div class="col-12 col-xl-12">
               <div class="card card-body shadow-sm mb-4">
                 <h2 class="h5 mb-4">Select cover photo</h2>
@@ -374,26 +374,26 @@
                     <!-- Avatar -->
                     <div class="user-avatar xl-avatar">
                       <img class="rounded avatar_cover" src="/images/background_cover/default.png"
-                        alt="change cover photo">
+                        alt="change cover photo" id="cover">
                     </div>
                   </div>
                   <div class="file-field">
                     <div class="d-flex justify-content-xl-center ms-xl-3">
                       <div class="d-flex">
                         <span class="icon icon-md"><span class="fas fa-paperclip me-3"></span></span>
-                        <input type="file" name="background_cover">
+                        <input type="file" name="background_cover" id="background_cover_input">
                         <div class="d-md-block text-left">
                           <div class="fw-normal text-dark mb-1">Choose Image</div>
                           <div class="text-gray small">JPG, GIF or PNG. Max size of 800K</div>
                         </div>
                       </div>
                     </div>
-                    <input class="btn btn-sm btn-dark" type="submit" value="submit">Save</input>
+                    <input class="btn btn-sm btn-dark" type="submit" value="submit" id="background_cover_btn">Save</input>
                   </div>
                 </div>
               </div>
             </div>
-          </form>
+          <!-- </form> -->
 
           <!-- ?    ---------------------------------< Form >--------------------------->
           <div class="col-lg-4">
@@ -470,7 +470,7 @@
           <div class="col-12 mb-4">
             <div class="card shadow-sm text-center p-0">
               <div class="profile-cover rounded-top avatar_cover"
-                data-background="/images/background_cover/default.jpg"></div>
+                data-background="/images/background_cover/default.jpg" id="avatar_background_cover"></div>
               <div class="card-body pb-5">
                 <img src="/images/avatars/default.png"
                   class="user-avatar large-avatar rounded-circle mx-auto mt-n7 mb-4 avatar_show" alt="Neil Portrait">
