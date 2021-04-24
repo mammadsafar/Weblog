@@ -12,25 +12,36 @@ const {
     deleteArticle,
     updateArticlePage,
     updateArticle,
+    readArticle,
 } = require("../services/article");
 
+// todo -------------< show article >-------------
 router.get('/new', newArticle)
+router.get('/readArticle:id', readArticle)
+router.get('/read:id', updateArticlePage);
 
+
+
+// todo -------------< create article >-------------
 router.post('/articleprofile', articleprofile);
 router.post('/articleImage', articleImage);
 router.post('/addNewArticle', addNewArticle);
 // router.post('/addText', addText);
 
+// todo -------------< my article article >-------------
 router.get('/myArticles', myArticles);
 
-router.post('/getMyArticle', getMyArticle);
-router.post('/getOneArticle:id', getOneArticle);
+// todo -------------< edit article >-------------
+router.put('/updatePage', updateArticle);
 
+// todo -------------< get article >-------------
+router.post('/getMyArticle', getMyArticle);
+router.get('/getOneArticle:id', getOneArticle);
+
+// todo -------------< delete article >-------------
 router.delete('/delete:id', deleteArticle);
 
 
-router.get('/read:id', updateArticlePage);
-router.put('/updatePage', updateArticle);
 // router.put('/updatePage', generalTools.updateArticleChecker, updateArticle);
 
 module.exports = router;

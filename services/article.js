@@ -13,6 +13,10 @@ const newArticle = (req, res) => {
     res.render('article/newArticle');
 
 }
+const readArticle = (req, res) => {
+    res.render('article/readArticle');
+
+}
 
 // ? ---------------------------------< article profile >---------------------------- 
 const articleprofile = (req, res) => {
@@ -97,11 +101,8 @@ const addNewArticle = (req, res) => {
     let ArticleName = `${req.session.user.username}-${Date.now()}-article.html`;
 
 
-    fs.writeFile(`${Location}/${ArticleName}`, ` ${ data }`, function (err) {
-        if (err) {
-            return res.status(400).send("Server Error :(");
-        }
-
+    fs.writeFileSync(`${Location}/${ArticleName}`, ` ${ data }`)
+     
         const newArticle = new Article({
             title: req.body.title,
             owner: req.session.user._id,
@@ -110,10 +111,10 @@ const addNewArticle = (req, res) => {
 
         });
 
-        console.log(newArticle);
+        console.log("==========>  ", newArticle);
         req.session.article = newArticle;
 
-        newArticle.save({}, (err, doc) => {
+        newArticle.save( (err) => {
             console.log("save article");
             if (err) {
                 console.log("ok baby");
@@ -132,7 +133,7 @@ const addNewArticle = (req, res) => {
 
 
 
-    })
+    
 
 
 
@@ -183,7 +184,7 @@ const getMyArticle = (req, res) => {
 
 // ? ---------------------------------< get one Article >---------------------------- 
 const getOneArticle = (req, res) => {
-
+console.log("================> ", req.params.id);
     User.findOne({
         _id: req.session.user._id
     }, {
@@ -207,30 +208,9 @@ const getOneArticle = (req, res) => {
                 });
             };
 
-
-
-
-
-            fs.readFile(path.join(__dirname, '../public', article.text, function read(err, data) {
-                if (err) {
-                    return res.status(404).json({
-                        msg: "Not Found :("
-                    });
-                }
-                const content = data;
-
-
-                console.log(content);
-                
-                res.json({
-                    title: article.title,
-                    text: content,
-                    avatar: article.profile
-                })
-            }));
-
-
-
+            res.json({
+                article
+            })
 
 
         })
@@ -241,7 +221,7 @@ const getOneArticle = (req, res) => {
 
 // ? ---------------------------------< delete User >---------------------------- 
 const deleteArticle = (req, res) => {
-
+console.log(" you are so =====================================> <=========");
     User.findOne({
         _id: req.session.user._id
     }, {
@@ -381,5 +361,6 @@ module.exports = {
     getOneArticle,
     deleteArticle,
     updateArticle,
-    updateArticlePage
+    updateArticlePage,
+    readArticle,
 }

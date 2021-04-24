@@ -39,8 +39,6 @@ const articleSchema = new mongoose.Schema({
 })
 
 
-
-
 articleSchema.pre('save', function (next) {
   const article = this;
   if (this.isNew || this.isModified('title') || this.isModified('summery') || this.isModified('text') || this.isModified('profile')) {

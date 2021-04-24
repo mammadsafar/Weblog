@@ -22,6 +22,7 @@ router.use('/dashboard', generalTools.loginChecker, dashboard);
 router.use('/userData', userData);
 // ? ---------------------------------< article >---------------------------- 
 router.use('/article', generalTools.loginChecker, article);
+// router.use('/article', article);
 // ? ---------------------------------< All article >---------------------------- 
 router.use('/public', public);
 

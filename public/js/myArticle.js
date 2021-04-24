@@ -18,7 +18,7 @@ $(document).ready(function () {
       },
 
       error: function (err) {
-        console.log('Data not found')
+        console.log(err)
       },
     });
 
@@ -81,13 +81,13 @@ $(document).ready(function () {
                   </a>
                   <time class="d-inline" pubdate="pubdate" datetime="Apr 01 2021">1 week ago</time>
                 </div>
-                <a href="https://themesberg.com/blog/django/user-profile-tutorial">
+                <a href="/article/readArticle${articles[i]._id}">
                   <h2 class="h2 mt-0 mt-md-2 mb-0">
                   ${articles[i].title}
   
                   </h2>
                 </a>
-                <a href="https://themesberg.com/blog/django/user-profile-tutorial" class="d-block mb-0 mb-lg-2 mt-1">
+                <a href="/article/readArticle${articles[i]._id}" class="d-block mb-0 mb-lg-2 mt-1">
                   <img
                     class="blog-img card-img-top lazy loaded" style=" height:400px; width:400px;"
                     src="${articles[i].profile}">
@@ -98,17 +98,17 @@ $(document).ready(function () {
                 <div class="d-flex align-items-center justify-content-between">
                   <div class="post-meta">
                     
-                    <a class="text-dark" href="https://themesberg.com/blog/django/user-profile-tutorial#disqus_thread">
+                    <a class="text-dark" href="/article/readArticle${articles[i]._id}">
                       View
                     </a>
                   </div>
                   <div class="btn-group me-2 mb-2">
-                  <a href="/article/read${articles[i]._id}" class="btn btn-dark">More</a> <button type="button" 
+                  <a href="/article/readArticle${articles[i]._id}" class="btn btn-dark">More</a> <button type="button" 
                   class="btn btn-dark dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true"
                   aria-expanded="false"><span class="fas fa-angle-down dropdown-arrow"></span> <span class="sr-only">Toggle
                     Dropdown</span></button>
                 <div class="dropdown-menu" style="">
-                <a class="dropdown-item rounded-bottom fw-bold" id="delete_account_btn" href="/article/read${articles[i]._id}"><span class="fa fa-address-book-o " aria-hidden="true"></span>Read </a>
+                <a class="dropdown-item rounded-bottom fw-bold" id="delete_account_btn" href="/article/readArticle${articles[i]._id}"><span class="fa fa-address-book-o " aria-hidden="true"></span>Read </a>
                 <a class="dropdown-item rounded-bottom fw-bold" id="delete_account_btn" href="/article/edit${articles[i]._id}"><span class="fa fa-pencil-square-o " aria-hidden="true"></span>Edit </a>
                   <div class="dropdown-divider"></div>
                   <button class="dropdown-item rounded-bottom fw-bold" id="delete_account_btn" onclick="delete_article('${articles[i]._id}')"><span class="fas fa-trash-alt text-danger" aria-hidden="true"></span>Delete </button>
