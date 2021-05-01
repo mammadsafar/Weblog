@@ -24,7 +24,7 @@ router.use('/userData', userData);
 router.use('/article', generalTools.loginChecker, article);
 // router.use('/article', article);
 // ? ---------------------------------< All article >---------------------------- 
-router.use('/public', public);
+router.use('/all', public);
 
 
 router.get('/', (req, res) => {

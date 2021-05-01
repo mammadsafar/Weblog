@@ -4,7 +4,7 @@ $(document).ready(function () {
   function get_articles(get_page, get_limit) {
     $.ajax({
       type: "POST",
-      url: "/article/getMyArticle",
+      url: "/all/getAllArticle",
       data: {
         page: get_page,
         limit: get_limit
@@ -63,62 +63,57 @@ $(document).ready(function () {
   function show_article(articles) {
     // $("#container").html("");
     if (articles !== null) {
+      console.log(articles);
 
       for (let i = 0; i < articles.length; i++) {
         let art = `     
           
-          <section class="blog-card mb-4 mb-lg-5 col-5 articleShow">
+          <section class="blog-card  mb-lg-8 col-8 articleShow">
             <div class="card shadow-sm border-light px-0 py-3 p-md-4">
               <div class="card-body py-2">
-                <div class="font-small mb-3"> <span>By</span>
+                <div class="font-small mb-3">
+                <a href="/all/readArticle${articles[i]._id}">
+                <h2 class="h2 mt-0 mt-md-2 mb-0 ">
+                ${articles[i].title}
+
+                </h2>
+                </a>
+                  
                   <a href="https://twitter.com/zoltanszogyenyi" target="_blank" rel="author" class="text-dark">
                     <address class="mb-0 d-inline mr-1">
                       <span class="font-weight-medium name_show ">
-                       <h5>${articles[i].owner.firstname} ${articles[i].owner.lastname}</h5>
+                      <span>By </span><p class="text-capitalize d-inline">${articles[i].owner.firstname} ${articles[i].owner.lastname}</p>
   
                       </span>
                     </address>
                   </a>
+                  <br>
                   <time class="d-inline" pubdate="pubdate" datetime="Apr 01 2021">Last Update: ${moment(articles[i].lastUpdate).format('DD MM YYYY')}</time>
                 </div>
-                <a href="/public/readArticle${articles[i]._id}">
-                  <h2 class="h2 mt-0 mt-md-2 mb-0">
-                  ${articles[i].title}
-  
-                  </h2>
-                </a>
-                <a href="/public/readArticle${articles[i]._id}" class="d-block mb-0 mb-lg-2 mt-1">
+              
+                <a href="/all/readArticle${articles[i]._id}" class="d-block mb-0 mb-lg-2 mt-1">
                   <img
-                    class="blog-img card-img-top lazy loaded" style=" height:400px; width:400px;"
+                    class="blog-img card-img-top lazy loaded " style=" height:350px; width:400px; margin:0;"
                     src="${articles[i].profile}">
                 </a>
                 <p class="mb-0 mb-lg-4">${articles[i].summery}</p>
               </div>
-              <div class="card-footer mx-4 px-0 pt-0 mt-3 mt-lg-0">
-                <div class="d-flex align-items-center justify-content-between">
+              <div class="card-footer mx-4 px-0 pt-0 mt-3 mt-lg-0" style="padding: 0;">
+                <div class="d-flex align-items-center justify-content-between" style="margin-top: 10px;">
                   <div class="post-meta">
                     
-                    <a class="text-dark" href="/public/readArticle${articles[i]._id}">
+                    <a class="text-dark" href="/all/readArticle${articles[i]._id}">
                       View
                     </a>
                   </div>
                   <div class="btn-group me-2 mb-2">
-                  <a href="/public/readArticle${articles[i]._id}" class="btn btn-dark">More</a> <button type="button" 
-                  class="btn btn-dark dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true"
-                  aria-expanded="false"><span class="fas fa-angle-down dropdown-arrow"></span> <span class="sr-only">Toggle
-                    Dropdown</span></button>
-                <div class="dropdown-menu" style="">
-                <a class="dropdown-item rounded-bottom fw-bold" id="delete_account_btn" href="/public/readArticle${articles[i]._id}"><span class="fa fa-address-book-o " aria-hidden="true"></span>Read </a>
-                <a class="dropdown-item rounded-bottom fw-bold" id="delete_account_btn" href="/article/edit${articles[i]._id}"><span class="fa fa-pencil-square-o " aria-hidden="true"></span>Edit </a>
-                  <div class="dropdown-divider"></div>
-                  <button class="dropdown-item rounded-bottom fw-bold" id="delete_account_btn" onclick="delete_article('${articles[i]._id}')"><span class="fas fa-trash-alt text-danger" aria-hidden="true"></span>Delete </button>
-                </div>
+                  <a href="/all/readArticle${articles[i]._id}" class="btn btn-dark">More</a> 
               </div>              </div>
             </div>
           </section>
         `
 
-        $("#container").append(art);
+        $("#container").prepend(art);
 
       };
     }

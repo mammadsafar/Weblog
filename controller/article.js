@@ -18,7 +18,7 @@ const {
 // todo -------------< show article >-------------
 router.get('/new', newArticle)
 router.get('/readArticle:id', readArticle)
-router.get('/read:id', updateArticlePage);
+
 
 
 
@@ -32,7 +32,8 @@ router.post('/addNewArticle', addNewArticle);
 router.get('/myArticles', myArticles);
 
 // todo -------------< edit article >-------------
-router.put('/updatePage', updateArticle);
+router.get('/edit:id', updateArticlePage);
+router.put('/editArticle', updateArticle);
 
 // todo -------------< get article >-------------
 router.post('/getMyArticle', getMyArticle);

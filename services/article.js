@@ -18,6 +18,13 @@ const readArticle = (req, res) => {
 
 }
 
+// ? ---------------------------------< my Articles Pass >---------------------------- 
+const myArticles = (req, res) => {
+
+    res.render("article/myarticles")
+
+}
+
 // ? ---------------------------------< article profile >---------------------------- 
 const articleprofile = (req, res) => {
 
@@ -102,38 +109,38 @@ const addNewArticle = (req, res) => {
 
 
     fs.writeFileSync(`${Location}/${ArticleName}`, ` ${ data }`)
-     
-        const newArticle = new Article({
-            title: req.body.title,
-            owner: req.session.user._id,
-            text: `/articles/text/${ArticleName}`,
-            summery: req.body.summery.substring(0, 80)
 
-        });
+    const newArticle = new Article({
+        title: req.body.title,
+        owner: req.session.user._id,
+        text: `/articles/text/${ArticleName}`,
+        summery: req.body.summery.substring(0, 80)
 
-        console.log("==========>  ", newArticle);
-        req.session.article = newArticle;
+    });
 
-        newArticle.save( (err) => {
-            console.log("save article");
-            if (err) {
-                console.log("ok baby");
-                console.log(err);
-                if (err.code === 11000) {
-                    return res.status(400).send("Duplicate item!")
-                }
-                return res.status(400).send("Server Error :(");
+    console.log("==========>  ", newArticle);
+    req.session.article = newArticle;
+
+    newArticle.save((err) => {
+        console.log("save article");
+        if (err) {
+            console.log("ok baby");
+            console.log(err);
+            if (err.code === 11000) {
+                return res.status(400).send("Duplicate item!")
             }
-        })
-        console.log("ok");
-        req.session.article = newArticle;
-        console.log(req.session.article);
-        res.redirect('../login')
+            return res.status(400).send("Server Error :(");
+        }
+    })
+    console.log("ok");
+    req.session.article = newArticle;
+    console.log(req.session.article);
+    res.redirect('../login')
 
 
 
 
-    
+
 
 
 
@@ -142,12 +149,7 @@ const addNewArticle = (req, res) => {
 
 }
 
-// ? ---------------------------------< my Articles Pass >---------------------------- 
-const myArticles = (req, res) => {
 
-    res.render("article/myarticles")
-
-}
 // ? ---------------------------------< getMyArticle >---------------------------- 
 const getMyArticle = (req, res) => {
 
@@ -161,7 +163,7 @@ const getMyArticle = (req, res) => {
             msg: "Server Error :))"
         });
 
-        Article.find({}).skip(parseInt(req.body.page) * parseInt(req.body.limit) - parseInt(req.body.limit)).limit(parseInt(req.body.limit)).populate('owner').sort('lastUpdate').exec((err, articles) => {
+        Article.find({}).skip(parseInt(req.body.page) * parseInt(req.body.limit) - parseInt(req.body.limit)).limit(parseInt(req.body.limit)).populate('owner').sort({'lastUpdate':-1}).exec((err, articles) => {
             if (err) return res.status(500).json({
                 msg: "Server Error :)("
             });
@@ -184,7 +186,7 @@ const getMyArticle = (req, res) => {
 
 // ? ---------------------------------< get one Article >---------------------------- 
 const getOneArticle = (req, res) => {
-console.log("================> ", req.params.id);
+    console.log("================> ", req.params.id);
     User.findOne({
         _id: req.session.user._id
     }, {
@@ -221,7 +223,6 @@ console.log("================> ", req.params.id);
 
 // ? ---------------------------------< delete User >---------------------------- 
 const deleteArticle = (req, res) => {
-console.log(" you are so =====================================> <=========");
     User.findOne({
         _id: req.session.user._id
     }, {
@@ -270,7 +271,7 @@ console.log(" you are so =====================================> <=========");
 }
 
 
-// ? ---------------------------------< article page >---------------------------- 
+// ? ---------------------------------< edit article page >---------------------------- 
 
 const updateArticlePage = (req, res) => {
     res.render('article/updateArticlePage');
@@ -280,69 +281,61 @@ const updateArticlePage = (req, res) => {
 const updateArticle = (req, res) => {
 
 
-    fs.unlink(path.join(__dirname, '../public', req.session.article.text), err => {
-        if (err) {
-            console.log(400);
-            res.status(500).json({
-                msg: 'Server Error!'
-            })
+
+    const obj = {
+
+        title: req.body.title,
+        summery: req.body.text.substring(0, 80),
+        lastUpdate: new Date(),
+
+    }
+    // !---------- < delete empty field in object > ------------
+    for (const key in obj) {
+        if (!obj[key]) {
+            delete obj[key]
         }
-        console.log("delete complete");
-    })
+    }
 
 
-
-    console.log("create new article");
-
-    let data = req.body.text
-
-    let Location = path.join(__dirname, '../public/articles/text');
-
-    let ArticleName = `${req.session.user.username}-${Date.now()}-article.html`;
-
-
-    fs.writeFile(`${Location}/${ArticleName}`, ` ${ data }`, function (err) {
-        if (err) {
-            return res.status(400).send("Server Error :(");
-        }
-
-
-        const obj = {
-
-            title: req.body.title,
-            text: `/articles/text/${ArticleName}`,
-            summery: req.body.summery.substring(0, 80)
-
-        }
-        // !---------- < delete empty field in object > ------------
-        for (const key in obj) {
-            if (!obj[key]) {
-                delete obj[key]
-            }
-        }
-
-
+    User.findOne({
+        _id: req.session.user._id
+    }, (err, user) => {
+        if (err) return res.status(500).json({
+            msg: "Server Error :)"
+        });
 
         Article.findOneAndUpdate({
-            _id: req.body._id
+            _id: req.body.id
         }, obj, {
             new: true
         }, (err, articleUpdate) => {
-            console.log(err);
+
             if (err) return res.status(500).json({
                 msg: "Server Error :)"
             });
 
-            console.log("ok");
-            req.session.article = articleUpdate;
-            console.log(req.session.article);
-            res.status(200).send("Updated article");
+            fs.readFile(path.join(__dirname, '../public', articleUpdate.text), "utf8", function (err, data) {
+                if (err) {
+                    return res.status(400).send("Server Error :(");
+                }
+                fs.writeFile(path.join(__dirname, '../public', articleUpdate.text), ` ${ req.body.text }`, function (err) {
+                    if (err) {
+                        return res.status(400).send("Server Error :(");
+                    }
+
+                    req.session.article = articleUpdate;
+                    res.status(200).send("Updated article");
+                })
+            });
+
+
         })
-
-
-
-
     })
+
+
+
+
+
 
 
 

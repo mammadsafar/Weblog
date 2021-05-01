@@ -3,16 +3,18 @@ const router = express.Router();
 
 const {
   allArticle,
-    getAllArticle,
-    // articleImage,
-    // addNewArticle,
-    // addText,
-    // myArticles,
-    // getMyArticle,
+  getAllArticle,
+  readArticle,
+  getOneArticle,
+  // myArticles,
+  // getMyArticle,
 } = require("../services/public");
 
 router.get('/allArticle', allArticle)
 router.post('/getAllArticle', getAllArticle);
+router.get('/readArticle:id', readArticle)
+router.get('/getOneArticle:id', getOneArticle);
+
 // router.post('/articleImage', articleImage);
 // router.post('/addNewArticle', addNewArticle);
 // router.post('/addText', addText);

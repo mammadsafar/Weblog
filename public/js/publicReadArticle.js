@@ -7,7 +7,7 @@ $(document).ready(function () {
     console.log(id);
     $.ajax({
       type: "GET",
-      url: `/article/getOneArticle${id}`,
+      url: `/all/getOneArticle${id}`,
       success: function (response) {
         console.log(response);
 

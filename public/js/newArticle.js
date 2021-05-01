@@ -140,6 +140,8 @@ $(document).ready(function () {
           window.location.href = "myArticles";
         }
       });
+    }else{
+      window.location.replace("/article/myArticle")
     }
 
   }

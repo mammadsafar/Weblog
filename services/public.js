@@ -2,129 +2,87 @@ const path = require('path');
 const fs = require('fs');
 const User = require(path.join(__dirname, '../models/User'));
 const Article = require(path.join(__dirname, '../models/article'));
-const bcrypt = require('bcrypt');
 const generalTools = require('../tools/general-tools');
 const multer = require('multer');
 
 
+const readArticle = (req, res) => {
+    res.render('article/public/readArticle');
 
+}
 
+// ? ---------------------------------< all article page >---------------------------- 
 const allArticle = (req, res) => {
-    console.log("article/newArticle -----------");
-    res.render('article/allArticle');
+
+    res.render("article/public/allArticle")
 
 }
-
-
-// ? ---------------------------------< my Articles Pass >---------------------------- 
-const myArticles = (req, res) => {
-
-  res.render("article/myarticles")
-
-}
-// ? ---------------------------------< getMyArticle >---------------------------- 
+// ? ---------------------------------< get All Article >---------------------------- 
 const getAllArticle = (req, res) => {
+    console.log("allArticle========>");
 
-  User.findOne({
-      _id: req.session.user._id
-  }, {
-      username: 1
-  }, (err, user) => {
+    User.findOne({}, (err, user) => {
 
-      if (err) return res.status(500).json({
-          msg: "Server Error :))"
-      });
+        if (err) return res.status(500).json({
+            msg: "Server Error :))"
+        });
 
-      Article.find({}).skip(parseInt(req.body.page) * parseInt(req.body.limit )- parseInt(req.body.limit)).limit(parseInt(req.body.limit)).populate('owner').sort('lastUpdate').exec((err, articles) => {
-          console.log(err);
-          if (err) return res.status(500).json({
-              msg: "Server Error :)("
-          });
-
-          if (!articles) {
-              return res.status(404).json({
-                  msg: "Not Found :("
-              });
-          };
-
-          console.log(articles);
-          res.json({
-              articles
-          })
-
-
-      })
-
-  })
-}
-
-
-// ? ---------------------------------< article profile >---------------------------- 
-const articleprofile = (req, res) => {
-
-    const upload = generalTools.uploadArticleProfile.single('avatar');
-
-
-
-    upload(req, res, function (err) {
-
-        if (err instanceof multer.MulterError) {
-            return res.status(500).send('Server Error :/')
-
-        } else if (err) {
-
-            return res.status(400).send("Bad Request!")
-
-        } else {
-
-            let path = req.file.destination.split("public");
-            `${path[1]}/${req.file.filename}`
-            Article.findOneAndUpdate({
-                _id: req.session.article._id
-            }, {
-                profile: `${path[1]}/${req.file.filename}`,
-            }, (err, article) => {
-
-                if (err) {
-
-                    return res.status(500).json({
-                        msg: "Server Error :("
-                    });
-                }
-
-                res.render('article/myarticles')
-
-
+        Article.find({}).skip(parseInt(req.body.page) * parseInt(req.body.limit) - parseInt(req.body.limit)).limit(parseInt(req.body.limit)).populate('owner').sort({
+            'lastUpdate': -1
+        }).exec((err, articles) => {
+            console.log(err);
+            if (err) return res.status(500).json({
+                msg: "Server Error :)("
             });
 
+            if (!articles) {
+                return res.status(404).json({
+                    msg: "Not Found :("
+                });
+            };
+
+            console.log(articles);
+            res.json({
+                articles
+            })
 
 
-            // if (req.session.article.profile === "/images/articles/profiles/default.jpg") {
+        })
 
-            //     let path = req.file.destination.split("public");
-            //     console.log(path[1]);
-            //     console.log(req.file.filename);
-            //     req.session.article = `${path[1]}/${req.file.filename}`;
-            //     console.log(req.session.article);
+    })
+}
 
-            //     // res.redirect('/dashboard');
-            // } else {
 
-            //     fs.unlink(path.join(__dirname, '../public', req.session.article.profile), err => {
-            //         if (err) {
+// ? ---------------------------------< get one Article >---------------------------- 
+const getOneArticle = (req, res) => {
+    console.log(1002);
+    User.findOne({}, (err, user) => {
 
-            //             return res.status(500).json({
-            //                 msg: 'Server Error!'
-            //             })
-            //         } else {
-            //             let path = req.file.destination.split("public");
-            //             req.session.article.profile = `${path[1]}/${req.file.filename}`;
+        if (err) return res.status(500).json({
+            msg: "Server Error :))"
+        });
+        console.log(user);
 
-            //             // res.redirect('/dashboard');
-            //         }
-            //     })
-            // }
-        }
+        Article.find({
+            _id: req.params.id
+        }).populate('owner').exec((err, article) => {
+            if (err) return res.status(500).json({
+                msg: "Server Error :)("
+            });
+
+            if (!article) {
+                return res.status(404).json({
+                    msg: "Not Found :("
+                });
+            };
+            console.log(article);
+            res.json({
+                article
+            })
+
+
+        })
+
     })
 }
 
@@ -290,10 +248,10 @@ const deletUser = (req, res) => {
 
 
 module.exports = {
-  allArticle,
-  getAllArticle,
-    // articleImage,
-    // addNewArticle,
+    allArticle,
+    getAllArticle,
+    readArticle,
+    getOneArticle,
     // addText,
     // myArticles,
     // getMyArticle,

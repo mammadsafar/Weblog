@@ -20,7 +20,7 @@ const articleSchema = new mongoose.Schema({
   },
   profile: {
     ...essentialSchema,
-    default: '/images/articles/profiles/default.jpg'
+    default: '/articles/profiles/default.jpg'
   },
   owner: {
     type: mongoose.Schema.ObjectId,
@@ -39,9 +39,9 @@ const articleSchema = new mongoose.Schema({
 })
 
 
-articleSchema.pre('save', function (next) {
+articleSchema.pre('update', function (next) {
   const article = this;
-  if (this.isNew || this.isModified('title') || this.isModified('summery') || this.isModified('text') || this.isModified('profile')) {
+  if (this.isModified('title') || this.isModified('summery') || this.isModified('text') || this.isModified('profile')) {
     article.lastUpdate =  new Date() ;
   } else {
       return next();
