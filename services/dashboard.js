@@ -60,7 +60,6 @@ const UpdateUser = (req, res) => {
     }, {
         new: true
     }, (err, userUpdate) => {
-        console.log(err);
         if (err) return res.status(500).json({
             msg: "Server Error :)"
         });
@@ -107,7 +106,9 @@ const UpdatePass = (req, res) => {
             User.findOneAndUpdate({
                 _id: user._id
             }, {
-                password: req.body.newPassword
+                $set: {
+                    password: req.body.newPassword
+                  }
             }, {
                 new: true
             }, (err, employee) => {

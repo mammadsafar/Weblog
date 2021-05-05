@@ -775,6 +775,137 @@
   <link rel="prefetch" as="script" href="https://disqus.com/next/config.js">
   <script src="https://c.disquscdn.com/next/embed/alfie_v4.63f1ab6d6b9d5807dc0c94ef3fe0b851.js" async=""
     charset="UTF-8"></script>
+  <style>
+    body {
+      margin-top: 20px;
+    }
+
+    .content-item {
+      padding: 30px 0;
+      background-color: #FFFFFF;
+    }
+
+    .content-item.grey {
+      background-color: #F0F0F0;
+      padding: 50px 0;
+      height: 100%;
+    }
+
+    .content-item h2 {
+      font-weight: 700;
+      font-size: 35px;
+      line-height: 45px;
+      text-transform: uppercase;
+      margin: 20px 0;
+    }
+
+    .content-item h3 {
+      font-weight: 400;
+      font-size: 20px;
+      color: #555555;
+      margin: 10px 0 15px;
+      padding: 0;
+    }
+
+    .content-headline {
+      height: 1px;
+      text-align: center;
+      margin: 20px 0 70px;
+    }
+
+    .content-headline h2 {
+      background-color: #FFFFFF;
+      display: inline-block;
+      margin: -20px auto 0;
+      padding: 0 20px;
+    }
+
+    .grey .content-headline h2 {
+      background-color: #F0F0F0;
+    }
+
+    .content-headline h3 {
+      font-size: 14px;
+      color: #AAAAAA;
+      display: block;
+    }
+
+
+    #comments {
+      box-shadow: 0 -1px 6px 1px rgba(0, 0, 0, 0.1);
+      background-color: #FFFFFF;
+    }
+
+    #comments form {
+      margin-bottom: 30px;
+    }
+
+    #comments .btn {
+      margin-top: 7px;
+    }
+
+    #comments form fieldset {
+      clear: both;
+    }
+
+    #comments form textarea {
+      height: 100px;
+    }
+
+    #comments .media {
+      border-top: 1px dashed #DDDDDD;
+      padding: 20px 0;
+      margin: 0;
+    }
+
+    #comments .media>.pull-left {
+      margin-right: 20px;
+    }
+
+    #comments .media img {
+      max-width: 100px;
+    }
+
+    #comments .media h4 {
+      margin: 0 0 10px;
+    }
+
+    #comments .media h4 span {
+      font-size: 14px;
+      float: right;
+      color: #999999;
+    }
+
+    #comments .media p {
+      margin-bottom: 15px;
+      text-align: justify;
+    }
+
+    #comments .media-detail {
+      margin: 0;
+    }
+
+    #comments .media-detail li {
+      color: #AAAAAA;
+      font-size: 12px;
+      padding-right: 10px;
+      font-weight: 600;
+    }
+
+    #comments .media-detail a:hover {
+      text-decoration: underline;
+    }
+
+    #comments .media-detail li:last-child {
+      padding-right: 0;
+    }
+
+    #comments .media-detail li i {
+      color: #666666;
+      font-size: 15px;
+      margin-right: 10px;
+    }
+  </style>
 </head>
 
 <body>
@@ -832,9 +963,11 @@
     <div class="section section-sm pt-3 pt-lg-3 pb-7">
       <div class="container">
         <div class="row justify-content-center">
-          <div class="col-lg-8 pr-lg-5" id="container">
-            <article>
-              <header>
+
+          <div class="col-lg-8 pr-lg-5" >
+
+            <article id="container">
+              <header >
                 <div class="row">
                   <div class="col-12">
                     <h1 class="h1 m-0 mb-2" id="title">Title</h1>
@@ -853,21 +986,52 @@
                   </div>
                 </div>
               </header>
+
               <div class="my-4">
                 <div id="text"></div>
 
-                <footer class="mt-2 mt-lg-4">
-
-                  <aside class="row">
-                    <div class="col-12">
-
-                      <div id="comment"></div>
-                      comment
-                    </div>
-                  </aside>
-                </footer>
               </div>
             </article>
+            <footer>
+
+              <aside class="row">
+                <div class="col-12">
+
+
+                  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
+                    rel="stylesheet">
+                  <section class="content-item">
+                    <div class="container">
+                      <div class="row">
+                        <h3 class="pull-left" style="margin-left: 10px;"> New Comment</h3>
+                        <div class="col-sm-12">
+
+                          <a class="btn btn-normal pull-right" href="/login" >Login</a>
+                          <fieldset>
+                            <div class="row">
+                              <div class="col-sm-3 col-lg-2 hidden-xs">
+                                <img class="img-responsive" src="https://bootdey.com/img/Content/avatar/avatar1.png"
+                                  alt="" style="border-radius:50% ;">
+                              </div>
+                              <div class="form-group col-xs-12 col-sm-9 col-lg-10">
+                                <textarea class="form-control" id="message" placeholder="For Comment first Login"
+                                  required=""></textarea>
+                              </div>
+                            </div>
+                          </fieldset>
+                          <div id="comments">
+                            
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+
+                </div>
+              </aside>
+            </footer>
+
           </div>
 
         </div>

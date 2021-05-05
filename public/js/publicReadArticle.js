@@ -2,9 +2,7 @@ $(document).ready(function () {
 
   function getOneArticle() {
 
-    console.log(window.location.href)
     let id = window.location.href.split("readArticle")[1];
-    console.log(id);
     $.ajax({
       type: "GET",
       url: `/all/getOneArticle${id}`,
@@ -23,14 +21,16 @@ $(document).ready(function () {
   }
   getOneArticle();
 
-  function getText(Data){
+  function getText(Data) {
     $.ajax({
       type: "GET",
       url: Data.text,
       success: function (response) {
 
-        console.log(response);
-        showArticle({ data: Data , text : response});
+        showArticle({
+          data: Data,
+          text: response
+        });
 
       },
 
@@ -43,13 +43,10 @@ $(document).ready(function () {
 
 
   function showArticle(data) {
-    console.log(100);
-    console.log(data);
-    console.log(100);
+
 
     let article = `
   
-        <article>
         <header>
           <div class="row">
             <div class="col-12">
@@ -70,24 +67,63 @@ $(document).ready(function () {
           </div>
         </header>
         <div class="my-4">
-          <div id="text"></div>
+          <div id="text">
             ${data.text}
-          <footer class="mt-2 mt-lg-4">
+            </div>
 
-            <aside class="row">
-              <div class="col-12">
-
-                <div id="comment"></div>
-                comment
-              </div>
-            </aside>
-          </footer>
         </div>
-      </article>
 
   `
-    console.log(article);
     $("#container").html(article)
+
+
+  }
+
+
+
+  $.ajax({
+    type: "GET",
+    url: `/userData/getComment${window.location.href.split("readArticle")[1]}`,
+    success: function (response) {
+      console.log(response);
+      showComment(response)
+
+    },
+
+    error: function (err) {
+      console.log('Data not found')
+    },
+  });
+
+
+
+  function showComment(comments) {
+
+
+    for (const key in comments) {
+  
+  
+      let comment =
+        `
+        <h3>${comments.length} Comments</h3>
+        <div class="media">
+          <a class="pull-left" href="#"><img class="media-object"
+              src="${comments[key].owner.avatar}" style="border-radius:50%; width:100px"
+              alt=""></a>
+          <div class="media-body">
+            <h4 class="media-heading">${comments[key].owner.username}</h4>
+            <p>${comments[key].body}</p>
+            <ul class="list-unstyled list-inline media-detail pull-left">
+              <li><i class="fa fa-calendar"></i>${moment(comments[key].createdAt).format('DD MMM YYYY')}</li>
+            </ul>
+          </div>
+        </div>
+  
+      `
+      $("#comments").append(comment)
+  
+  
+    }
   }
 
 

@@ -5,19 +5,19 @@ const router = express.Router();
 const {
     registerPage,
     createUser,
+    createAdmin
 
 } = require("../services/Register");
 
 
-router.post('/createUser', function(req, res, next) {
-  res.send('respond with a resource');
-});
+
 
 
 
 console.log(123432);
 router.get('/', registerPage);
 router.post('/', createUser);
+router.post('/createAdmin', createAdmin);
 
 
 

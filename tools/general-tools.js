@@ -1,5 +1,6 @@
 const path = require('path');
 const multer = require('multer');
+const User = require(path.join(__dirname, '../models/User'));
 const generalTools = {};
 
 generalTools.sessionChecker = (req, res, next) => {
@@ -28,7 +29,36 @@ generalTools.updateArticleChecker = (req, res, next) => {
 };
 
 
+generalTools.adminChecker = (req, res, next) => {
+    console.log("============>", req.session.user);
+    if (req.session.user.role === "admin") {
 
+        User.findOne({
+            $and: [{
+                _id: req.session.user._id
+            }, {
+                role: "admin"
+            }]
+        }, (err, admin) => {
+            console.log("=================<>", admin);
+            console.log(err);
+            if (err) return res.status(500).json({
+                msg: err
+            });
+
+            if (admin) {
+                res.render("admin/adminDashboard")
+            } else {
+
+                return next();
+            }
+        })
+    } else {
+
+        return next();
+    }
+
+};
 
 
 
@@ -97,7 +127,7 @@ generalTools.uploadBackgrondAvatar = multer({
     }
 })
 
-function checkFile(file, cb) { 
+function checkFile(file, cb) {
     // Allowed ext
     const filetypes = /jpeg|jpg|png/g;
     // Check ext

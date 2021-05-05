@@ -2,6 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const User = require(path.join(__dirname, '../models/User'));
 const Article = require(path.join(__dirname, '../models/article'));
+const Comment = require(path.join(__dirname, '../models/comment'));
 const generalTools = require('../tools/general-tools');
 const multer = require('multer');
 
@@ -99,7 +100,6 @@ const articleImage = (req, res) => {
 // todo ---------------------------------< add New Article >---------------------------- 
 const addNewArticle = (req, res) => {
 
-    console.log("not ok");
 
     let data = req.body.text
 
@@ -118,7 +118,6 @@ const addNewArticle = (req, res) => {
 
     });
 
-    console.log("==========>  ", newArticle);
     req.session.article = newArticle;
 
     newArticle.save((err) => {
@@ -132,19 +131,8 @@ const addNewArticle = (req, res) => {
             return res.status(400).send("Server Error :(");
         }
     })
-    console.log("ok");
     req.session.article = newArticle;
-    console.log(req.session.article);
     res.redirect('../login')
-
-
-
-
-
-
-
-
-
 
 
 }
@@ -163,7 +151,9 @@ const getMyArticle = (req, res) => {
             msg: "Server Error :))"
         });
 
-        Article.find({}).skip(parseInt(req.body.page) * parseInt(req.body.limit) - parseInt(req.body.limit)).limit(parseInt(req.body.limit)).populate('owner').sort({'lastUpdate':-1}).exec((err, articles) => {
+        Article.find({}).skip(parseInt(req.body.page) * parseInt(req.body.limit) - parseInt(req.body.limit)).limit(parseInt(req.body.limit)).populate('owner').sort({
+            'lastUpdate': -1
+        }).exec((err, articles) => {
             if (err) return res.status(500).json({
                 msg: "Server Error :)("
             });
@@ -343,6 +333,49 @@ const updateArticle = (req, res) => {
 
 
 
+// * ---------------------------------< Comment >---------------------------- 
+const addComment = (req, res) => {
+console.log(100200300);
+console.log(req.body);
+    const newComment = new Comment({
+        body: req.body.massage,
+        owner: req.session.user._id,
+        article: req.params.id,
+    });
+
+
+
+    newComment.save((err) => {
+        console.log("===>", err);
+        if (err) {
+
+            if (err.code === 11000) {
+                return res.status(400).send("Duplicate item!")
+            }
+            return res.status(400).send("Server Error :(");
+        }
+    })
+
+    res.json('ok')
+
+
+}
+
+const deleteComment = (req, res) => {
+  
+        console.log("deleteComment ===>  ",req.params.id);
+    Comment.findOneAndDelete({
+        _id: req.params.id
+    }, (err, comment) => {
+        if (err) return res.status(500).json({
+            msg: "Server Error :)====<"
+        });
+
+        res.send("ok");
+    })
+
+}
+
 
 module.exports = {
     newArticle,
@@ -356,4 +389,6 @@ module.exports = {
     updateArticle,
     updateArticlePage,
     readArticle,
+    addComment,
+    deleteComment,
 }

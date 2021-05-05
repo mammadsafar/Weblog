@@ -1,24 +1,44 @@
 $(document).ready(function () {
 
+  $.ajax({
+    type: "GET",
+    url: "/userData/getUser",
+    // dataType: "application/json",
+    success: function (response) {
+      user = response[0];
+
+
+
+      $("#avatar_show").attr('src', `${user.avatar}`)
+
+
+      $("#username_show").html(`@${user.username}`)
+      $("#name_show").html(`${user.firstname} ${user.lastname}`)
+
+
+    },
+
+    error: function (err) {
+      log('Data not found')
+    },
+  });
 
   function get_articles(get_page, get_limit) {
     $.ajax({
       type: "POST",
-      url: "/article/getMyArticle",
+      url: `/userData/get${window.location.href.split("userArticlePage")[1]}`,
       data: {
         page: get_page,
         limit: get_limit
       },
       success: function (response) {
 
-        article = response[0];
-        console.log(response);
-        show_article(response.articles);
+        show_article(response);
 
       },
 
       error: function (err) {
-        console.log(err)
+        log('Data not found')
       },
     });
 
@@ -27,33 +47,7 @@ $(document).ready(function () {
   get_articles(1, 3);
 
 
-  $("#save_btn").on('click', () => {
-    console.log(10000);
-    if ($("#article_name").val()) {
-      $.ajax({
-        type: "POST",
-        url: "/article/addNewArticle",
-        data: {
-          title: $("#article_name").val(),
-          text: CKEDITOR.instances.editor1.getData(),
-          summery: CKEDITOR.instances.editor1.document.getBody().getText(),
-        },
-        // dataType: "application/json",
-        success: function (response) {
-          send_article_text();
 
-        },
-
-        error: function (err) {
-          console.log('cant save article name')
-        },
-      });
-
-
-    }
-
-
-  })
 
 
 
@@ -109,7 +103,6 @@ $(document).ready(function () {
                     Dropdown</span></button>
                 <div class="dropdown-menu" style="">
                 <a class="dropdown-item rounded-bottom fw-bold" id="delete_account_btn" href="/all/readArticle${articles[i]._id}"><span class="fa fa-address-book-o " aria-hidden="true"></span>Read </a>
-                <a class="dropdown-item rounded-bottom fw-bold" id="delete_account_btn" href="/article/edit${articles[i]._id}"><span class="fa fa-pencil-square-o " aria-hidden="true"></span>Edit </a>
                   <div class="dropdown-divider"></div>
                   <button class="dropdown-item rounded-bottom fw-bold" id="delete_account_btn" onclick="delete_article('${articles[i]._id}')"><span class="fas fa-trash-alt text-danger" aria-hidden="true"></span>Delete </button>
                 </div>
@@ -178,11 +171,11 @@ $(document).ready(function () {
 
 
 
-  
-  
+
+
 })
 
-function delete_article(id){
+function delete_article(id) {
 
   $.ajax({
     type: "DELETE",
@@ -213,4 +206,3 @@ function delete_article(id){
 
 
 }
-

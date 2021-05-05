@@ -379,12 +379,12 @@ $(document).ready(function () {
 
     $("body").on('click', '#new_avatar_btn', function () {
         if ($('#new_avatar')[0].files[0]) {
-            send_article_avatar();
+            send_avatar();
         }
     })
 
 
-    function send_article_avatar() {
+    function send_avatar() {
         var data = new FormData();
         data.append("avatar", $('#new_avatar')[0].files[0]);
 
@@ -425,12 +425,12 @@ $(document).ready(function () {
 
     $("body").on('click', '#background_cover_btn', function () {
         if ($('#background_cover_input')[0].files[0]) {
-            send_article_avatar();
+            send_background_cover_avatar();
         }
     })
 
 
-    function send_article_avatar() {
+    function send_background_cover_avatar() {
 
 
 

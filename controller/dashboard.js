@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const generalTools = require('../tools/general-tools');
 
 const {
     showDashboard,
@@ -11,7 +12,7 @@ const {
     uploadBackgrondAvatar,
 } = require("../services/dashboard");
 
-router.get('/', showDashboard)
+router.get('/', generalTools.adminChecker, showDashboard)
 // router.post('/loggedInUser', loggedInUser);
 router.get('/getAllUser', getAllUser);
 router.delete('/:username', deletUser);

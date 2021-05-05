@@ -832,9 +832,11 @@
     <div class="section section-sm pt-3 pt-lg-3 pb-7">
       <div class="container">
         <div class="row justify-content-center">
-          <div class="col-lg-8 pr-lg-5" id="container">
-            <article>
-              <header>
+
+          <div class="col-lg-8 pr-lg-5" >
+
+            <article id="container">
+              <header >
                 <div class="row">
                   <div class="col-12">
                     <h1 class="h1 m-0 mb-2" id="title">Title</h1>
@@ -853,21 +855,55 @@
                   </div>
                 </div>
               </header>
+
               <div class="my-4">
                 <div id="text"></div>
 
-                <footer class="mt-2 mt-lg-4">
-
-                  <aside class="row">
-                    <div class="col-12">
-
-                      <div id="comment"></div>
-                      comment
-                    </div>
-                  </aside>
-                </footer>
               </div>
             </article>
+            <footer>
+
+              <aside class="row">
+                <div class="col-12">
+
+
+
+                  
+
+                  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
+                    rel="stylesheet">
+                  <section class="content-item">
+                    <div class="container">
+                      <div class="row">
+                        <h3 class="pull-left" style="margin-left: 10px;"> New Comment</h3>
+                        <div class="col-sm-12">
+
+                          <button type="submit" class="btn btn-normal pull-right" id="comment_btn">Submit</button>
+                          <fieldset>
+                            <div class="row">
+                              <div class="col-sm-3 col-lg-2 hidden-xs">
+                                <img class="img-responsive" src="https://bootdey.com/img/Content/avatar/avatar1.png"
+                                  alt="" style="border-radius:50% ;">
+                              </div>
+                              <div class="form-group col-xs-12 col-sm-9 col-lg-10">
+                                <textarea class="form-control" id="message" placeholder="Your message"
+                                  required=""></textarea>
+                              </div>
+                            </div>
+                          </fieldset>
+                          <div id="comments">
+                            
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+
+                </div>
+              </aside>
+            </footer>
+
           </div>
 
         </div>

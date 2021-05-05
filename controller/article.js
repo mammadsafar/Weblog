@@ -13,6 +13,8 @@ const {
     updateArticlePage,
     updateArticle,
     readArticle,
+    addComment,
+    deleteComment,
 } = require("../services/article");
 
 // todo -------------< show article >-------------
@@ -42,6 +44,9 @@ router.get('/getOneArticle:id', getOneArticle);
 // todo -------------< delete article >-------------
 router.delete('/delete:id', deleteArticle);
 
+// todo -------------< Comment >-------------
+router.post('/addComment:id', addComment);
+router.get('/deleteComment:id', deleteComment);
 
 // router.put('/updatePage', generalTools.updateArticleChecker, updateArticle);
 

@@ -1,6 +1,5 @@
 const path = require('path');
 const User = require(path.join(__dirname, '../models/User'));
-const url = require('url');
 const bcrypt = require('bcrypt');
 
 const loginPage = (req, res) => {
@@ -42,7 +41,6 @@ const loggedInUser = (req, res) => {
             };
 
             if (!isMatch) return res.status(404).json({msg : "User Not Found!"});
-                        // console.log("5");
             req.session.user = user;
             // console.log(req.session);
             // console.log(req.session.user);

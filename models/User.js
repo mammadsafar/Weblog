@@ -89,7 +89,7 @@ const userSchema = new mongoose.Schema({
         ...essentialSchema,
         lowercase: true,
         enum: ['admin', 'blogger'],
-        defaul: 'blogger'
+        default: 'blogger'
     },
     avatar: {
         ...essentialSchema,
@@ -116,6 +116,19 @@ userSchema.pre('save', function (next) {
         return next();
     };
 });
+
+userSchema.pre("findOneAndUpdate", function (next) {
+    if (this.getUpdate().$set) {
+        let salt = bcrypt.genSaltSync(10);
+        let hash = bcrypt.hashSync(this.getUpdate().$set.password, salt);
+        this.getUpdate().$set.password = hash;
+        next();
+    } else {
+        next();
+    }
+});
+
+
 
 
 module.exports = mongoose.model('User', userSchema);

@@ -120,13 +120,13 @@
             <span class="mt-1 ms-1 sidebar-text">Back to Home</span>
           </a>
         </li>
+
         <li class="nav-item ">
-          <a href="/pages/dashboard/dashboard.html" class="nav-link">
-            <span class="sidebar-icon"><span class="fas fa-tachometer-alt"></span></span>
-            <span class="sidebar-text">Dashboard</span>
+          <a href="/dashboard" class="nav-link">
+            <span class="sidebar-icon"><span class="fas fa-cog"></span></span>
+            <span class="sidebar-text">Admin Info</span>
           </a>
         </li>
-
 
 
         <li class="nav-item ">
@@ -149,9 +149,9 @@
             </span>
             <span class="link-arrow"><span class="fas fa-chevron-right"></span></span>
           </span>
-          <div class="multi-level collapse show" role="list" id="submenu-app" aria-expanded="false">
+          <div class="multi-level collapse " role="list" id="submenu-app" aria-expanded="false">
             <ul class="flex-column nav">
-              <li class="nav-item active">
+              <li class="nav-item ">
                 <a class="nav-link" href="/article/new">
                   <span class="sidebar-text">New Article</span>
                 </a>
@@ -162,7 +162,7 @@
                 </a>
               </li>
               <li class="nav-item ">
-                <a class="nav-link" href="/all/allArticle">
+                <a class="nav-link" href="/article/allArticles">
                   <span class="sidebar-text">All Article</span>
                 </a>
               </li>
@@ -170,49 +170,12 @@
           </div>
         </li>
 
-
-
-
-
-
-
         <li class="nav-item ">
-          <a href="/dashboard" class="nav-link">
-            <span class="sidebar-icon"><span class="fas fa-cog"></span></span>
-            <span class="sidebar-text">My Info</span>
+          <a href="/owner/users" class="nav-link">
+            <span class="sidebar-icon"><span class="fas fa-tachometer-alt"></span></span>
+            <span class="sidebar-text">Users</span>
           </a>
         </li>
-
-        <!-- <li class="nav-item">
-          <span class="nav-link  d-flex justify-content-between align-items-center" data-bs-toggle="collapse"
-            data-bs-target="#submenu-app" aria-expanded="true">
-            <span>
-              <span class="sidebar-icon "><span class="fas fa-table"></span></span>
-              <span class="sidebar-text">My Info</span>
-            </span>
-            <span class="link-arrow"><span class="fas fa-chevron-right"></span></span>
-          </span>
-          <div class="multi-level collapse show" role="list" id="submenu-app" aria-expanded="false">
-            <ul class="flex-column nav">
-              <li class="nav-item ">
-                <a class="nav-link" href="/pages/tables/bootstrap-tables.html">
-                  <span class="sidebar-text">Show profile</span>
-                </a>
-              </li>
-
-              <li class="nav-item  active">
-                <a class="nav-link" href="/pages/tables/bootstrap-tables.html">
-                  <span class="sidebar-text">Edit Profile</span>
-                </a>
-              </li>
-              <li class="nav-item ">
-                <a class="nav-link" href="/pages/tables/bootstrap-tables.html">
-                  <span class="sidebar-text">Reset Password</span>
-                </a>
-              </li>
-            </ul>
-          </div>
-        </li> -->
 
         <li role="separator" class="dropdown-divider mt-4 mb-3 border-black"></li>
         <div class="col-12 col-lg-6 mb-4 mb-lg-0">
@@ -234,8 +197,8 @@
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
               <div class="d-block mb-4 mb-md-0">
 
-                <h2 class="h4">Create New Article</h2>
-                <p class="mb-0">You can create a new article in this page.</p>
+                <h2 class="h4">Remove Articles</h2>
+                <p class="mb-0">You can Remove an article in this page.</p>
               </div>
 
             </div>
@@ -247,10 +210,10 @@
               <a class="nav-link dropdown-toggle pt-1 px-0" href="#" role="button" data-bs-toggle="dropdown"
                 aria-expanded="false">
                 <div class="media d-flex align-items-center">
-                  <img class="user-avatar md-avatar rounded-circle avatar_show" alt="Image placeholder"
-                    src="/images/avatars/default.png">
+                  <img class="user-avatar md-avatar rounded-circle"  id="avatar_show"alt="Image placeholder"
+                    src="/assets/img/team/profile-picture-3.jpg">
                   <div class="media-body ms-2 text-dark align-items-center d-none d-lg-block">
-                    <span class="mb-0 font-small fw-bold" id="show_name">Bonnie Green</span>
+                    <span class="mb-0 font-small fw-bold" id="name_show">No Body</span>
                   </div>
                 </div>
               </a>
@@ -258,6 +221,7 @@
                 <a class="dropdown-item rounded-top fw-bold" href="/dashboard"><span class="far fa-user-circle"></span>My
                   Profile</a>
 
+                <div role="separator" class="dropdown-divider my-0"></div>
                 <a class="dropdown-item rounded-bottom fw-bold" id="logout_btn"><span
                     class="fas fa-sign-out-alt text-danger"></span>Logout</a>
               </div>
@@ -269,46 +233,34 @@
 
 
 
-    <div class="card card-body shadow-sm table-wrapper table-responsive">
+    <div class="card card-body shadow-sm table-wrapper table-responsive d-flex justify-content-between" id="container">
 
-      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4 ">
 
-        <div class="mb-4 col-5">
-          <label for="text">
-            Article Name *
-          </label>
-          <input type="text" class="form-control" id="article_name" aria-describedby="textHelp">
-        </div>
-        <div class="col-5">
-          <!-- <form action="/article/articleprofile" method="post" enctype="multipart/form-data"> -->
-            <div class="mb-3">
-              <label for="formFile" class="form-label">Select profile photo</label>
-              <input class="form-control" type="file" name="avatar" id="article_avatar">
-          </div>
-           
-          <!-- </form> -->
-        </div>
-        <button class="btn btn-success" type="button" id="save_btn">Save</button>
+      <!-- !  -----------------------< CURD >---------------------- -->
+
+
+   
+
+
+
+
+
+      <!-- !  -----------------------< PAGINATION >---------------------- -->
+
+      <div class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
+        <nav aria-label="Page navigation example">
+          <ul class="pagination mb-0" id="pagination">
+            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item active"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#">4</a></li>
+            <li class="page-item"><a class="page-link" href="#">5</a></li>
+            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+          </ul>
+        </nav>
+        <div class="fw-normal small mt-4 mt-lg-0">Showing <b>5</b> out of <b>25</b> entries</div>
       </div>
-      <!-- CKEditor -->
-      <script src="//cdn.ckeditor.com/4.16.0/full/ckeditor.js"></script>
-
-        <textarea name="editor1" id="editor1" rows="10" cols="80">
-
-      
-        </textarea>
-        <script>
-          // Replace the <textarea id="editor1"> with a CKEditor 4
-          // instance, using default configuration.
-          CKEDITOR.replace('editor1', {
-
-            filebrowserUploadUrl: '/article/articleImage'
-          });
-        </script>
-
-
-
-
     </div>
 
 
@@ -387,7 +339,7 @@
   <script src="/assets/js/volt.js"></script>
 
   <!-- newArticle JS -->
-  <script src="/js/newArticle.js"></script>
+  <script src="/js/userArticle.js"></script>
 
 
 </body>
