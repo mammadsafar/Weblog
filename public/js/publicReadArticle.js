@@ -7,7 +7,6 @@ $(document).ready(function () {
       type: "GET",
       url: `/all/getOneArticle${id}`,
       success: function (response) {
-        console.log(response);
 
         getText(response.article[0]);
 

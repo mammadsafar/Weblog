@@ -12,7 +12,6 @@ const users = (req, res) => {
 
 }
 const userArticlePage = (req, res) => {
-  console.log("hasan kachal -------------------");
   res.render('admin/userArticle');
 
 }
@@ -54,7 +53,6 @@ const getAllUser = (req, res) => {
 
 // ? ---------------------------------< Update User >---------------------------- 
 const UpdateUser = (req, res) => {
-  console.log(req.body);
 
   User.findOneAndUpdate({
     username: req.params.username.trim()
@@ -78,7 +76,6 @@ const UpdateUser = (req, res) => {
 // ? ---------------------------------< Update Pass >---------------------------- 
 const UpdatePass = (req, res) => {
 
-  console.log(req.params.id);
   User.findOne({
     _id: req.params.id
   }, {}, {
@@ -93,7 +90,6 @@ const UpdatePass = (req, res) => {
         msg: "Not Found :("
       });
     };
-    console.log(user);
     User.findOneAndUpdate({
       _id: user._id
     }, {
@@ -101,8 +97,6 @@ const UpdatePass = (req, res) => {
         password: user.username
       }
     }, (err, employee) => {
-      console.log(employee);
-      console.log(err);
       if (err) return res.status(500).json({
         msg: "Server Error :)",
         err: err.msg
@@ -117,16 +111,13 @@ const UpdatePass = (req, res) => {
 
 // ? ---------------------------------< delete User >---------------------------- 
 const deletUser = (req, res) => {
-  console.log(1000);
   User.findOneAndDelete({
     _id: req.params.id
   }, (err, user) => {
-    console.log(err);
     if (err) return res.status(500).json({
       msg: "Server Error :)",
       err: err.msg
     });
-    console.log(user);
     res.send("ok");
   })
 
@@ -136,7 +127,6 @@ const deletUser = (req, res) => {
 const UpdateUserAvatar = (req, res) => {
 
   const upload = generalTools.uploadAvatar.single('avatar');
-  console.log(1);
 
 
   upload(req, res, function (err) {
@@ -167,7 +157,6 @@ const UpdateUserAvatar = (req, res) => {
 
               fs.unlink(path.join(__dirname, '../public', req.session.user.avatar), err => {
                 if (err) {
-                  console.log(400);
                   res.status(500).json({
                     msg: 'Server Error!'
                   })
@@ -196,11 +185,9 @@ const UpdateUserAvatar = (req, res) => {
 const uploadBackgrondAvatar = (req, res) => {
 
   const upload = generalTools.uploadBackgrondAvatar.single('background_cover');
-  console.log(1);
 
 
   upload(req, res, function (err) {
-    console.log(err);
 
     if (err instanceof multer.MulterError) {
       res.status(500).send('Server Error :/')
@@ -210,7 +197,6 @@ const uploadBackgrondAvatar = (req, res) => {
       res.status(400).send("Bad Request!")
 
     } else {
-      console.log(1);
       User.findByIdAndUpdate(
         req.session.user._id, {
           background_cover: `/images/background_cover/${req.file.filename}`
@@ -231,7 +217,6 @@ const uploadBackgrondAvatar = (req, res) => {
             } else {
               fs.unlink(path.join(__dirname, '../public', req.session.user.background_cover), err => {
                 if (err) {
-                  console.log(400);
                   res.status(500).json({
                     msg: 'Server Error!'
                   })

@@ -12,7 +12,6 @@ $(document).ready(function () {
       success: function (response) {
 
         article = response[0];
-        console.log(response);
         show_article(response.articles);
 
       },

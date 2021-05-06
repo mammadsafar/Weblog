@@ -141,7 +141,6 @@ $(document).ready(function () {
 })
 
 function deleteUser(id) {
-  console.log(id);
 
 
   Swal.fire({

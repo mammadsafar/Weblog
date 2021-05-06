@@ -44,7 +44,6 @@ const createUser = (req, res) => {
             password: req.body.password,
             email: req.body.email
         });
-        console.log(newUser);
         newUser.save({}, (err, doc) => {
             if (err) {
                 if (err.code === 11000) {
@@ -89,7 +88,6 @@ const createAdmin = (req, res) => {
                 msg: "Admin Already Exist :("
             });
         }
-        console.log(user);
 
         const newUser = new User({
             firstname: req.body.firstname.trim(),
@@ -101,7 +99,6 @@ const createAdmin = (req, res) => {
             phone_number: req.body.phone_number,
             role: req.body.role
         });
-        console.log(newUser);
         newUser.save( (err) => {
             if (err) {
                 if (err.code === 11000) {

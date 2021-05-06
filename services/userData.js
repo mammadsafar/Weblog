@@ -4,8 +4,7 @@ const Article = require(path.join(__dirname, '../models/article'));
 const Comment = require(path.join(__dirname, '../models/comment'));
 
 const getUser = (req, res) => {
-    // console.log(req.session.user);
-    // console.log(req.session);
+
     User.find({
         _id: req.session.user._id
     }, (err, user) => {
@@ -28,8 +27,7 @@ const getUser = (req, res) => {
 
 }
 const getUserById = (req, res) => {
-    // console.log(req.session.user);
-    // console.log(req.session);
+
     console.log(100);
     Article.find({
         owner: req.params.id
@@ -58,45 +56,12 @@ const getUserById = (req, res) => {
     })
 
 }
-// const getUserById = (req, res) => {
-//     // console.log(req.session.user);
-//     // console.log(req.session);
-//     console.log(100);
-//     Article.find({
-//         owner: req.params.id
-//     }, (err, articles) => {
-//         console.log(err);
-//         if (err) {
-//             return res.redirect(url.format({
-//                 pathname: "/api/auth/registerPage",
-//                 status: 500,
-//                 query: {
-//                     "msg": "Server Error :("
-//                 }
-//             }))
-//         }
-//         if (!articles) {
-//             return res.redirect(url.format({
-//                 status: 404,
-//                 query: {
-//                     "msg": 'Username Not Found :('
-//                 }
-//             }));
-//         };
-//         console.log(articles);
-
-//         res.json(articles)
 
 
-//     })
-
-// }
 
 
 const getComment = (req, res) => {
-    // console.log(req.session.user);
-    // console.log(req.session);
-    console.log(100);
+
     User.find({}, {
         username: 1,
         avatar: 1
@@ -125,7 +90,6 @@ const getComment = (req, res) => {
         Comment.find({
             article: req.params.id
         }).populate('owner').exec( (err, comment) => {
-            console.log(err);
             if (err) {
                 return res.redirect(url.format({
                     pathname: "/api/auth/registerPage",
@@ -143,7 +107,6 @@ const getComment = (req, res) => {
                     }
                 }));
             };
-            console.log(comment);
 
             res.json(comment)
 

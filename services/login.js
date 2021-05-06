@@ -8,7 +8,6 @@ const loginPage = (req, res) => {
 
 
 const loggedInUser = (req, res) => {
-// console.log("req.body");
     if (!req.body.username || !req.body.password) {
         return res.status(400).json({
             msg: "Empty Field :("
@@ -28,11 +27,9 @@ const loggedInUser = (req, res) => {
         if (err) return res.status(400).json({
             msg: "server error :("
         });
-        // console.log("3");
         if (!user) return res.status(404).json({
             msg: "Not Found :("
         })
-        // console.log("4");
 
         bcrypt.compare(req.body.password, user.password, function (err, isMatch) {
 

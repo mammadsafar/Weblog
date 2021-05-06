@@ -241,7 +241,6 @@ $(document).ready(function () {
           email: $("#email").val(),
           phone_number: $("#phone").val(),
       }
-      console.log(user_info);
       $.ajax({
           type: "PUT",
           url: `dashboard/${user.username}`,
@@ -324,8 +323,6 @@ $(document).ready(function () {
       let array = [new_pass, old_pass, confirm_pass];
       let array2 = ["new_pass", "old_pass", "confirm_pass"];
       for (const key in array) {
-          // console.log(key);
-          // console.log(array[key].val());
 
           if (!array[key].val()) {
               $(`#${array2[key]}`).attr('class', 'form-control is-invalid')
@@ -345,7 +342,6 @@ $(document).ready(function () {
               oldPassword: $("#old_pass").val(),
               newPassword: $("#new_pass").val()
           }
-          console.log(pass);
           $.ajax({
               type: "PUT",
               url: `dashboard/pass${user.username}`,

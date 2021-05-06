@@ -9,13 +9,11 @@ const multer = require('multer');
 
 
 const showDashboard = (req, res) => {
-    console.log("hasan kachal-----------");
     res.render('Dashboard');
 
 }
 // ? ---------------------------------< get All User >---------------------------- 
 const getAllUser = (req, res) => {
-    console.log(1234);
     User.find({}, (err, user) => {
         if (err) {
             return res.redirect(url.format({
@@ -45,7 +43,6 @@ const getAllUser = (req, res) => {
 
 // ? ---------------------------------< Update User >---------------------------- 
 const UpdateUser = (req, res) => {
-    console.log(req.body);
 
     User.findOneAndUpdate({
         username: req.params.username.trim()
@@ -85,12 +82,10 @@ const UpdatePass = (req, res) => {
             });
         };
 
-        console.log(req.body);
         // ! ------------------------------------- check pass
         bcrypt.compare(req.body.oldPassword, user.password, function (err, isMatch) {
 
             if (err) {
-                console.log(err);
                 return res.redirect(url.format({
                     pathname: "/login",
                     query: {
@@ -146,7 +141,6 @@ const deletUser = (req, res) => {
 const UpdateUserAvatar = (req, res) => {
 
     const upload = generalTools.uploadAvatar.single('avatar');
-    console.log(1);
 
 
     upload(req, res, function (err) {
@@ -167,17 +161,14 @@ const UpdateUserAvatar = (req, res) => {
                     new: true
                 }, (err, user) => {
                     if (err) {
-                        console.log("============>   ", 4);
                         res.status(500).json({
                             msg: 'Server Error!'
                         })
                     } else {
-                        console.log(user);
                         if (req.session.user.avatar && req.session.user.avatar !== '/images/avatars/default.png') {
 
                             fs.unlink(path.join(__dirname, '../public', req.session.user.avatar), err => {
                                 if (err) {
-                                    console.log(400);
                                     res.status(500).json({
                                         msg: 'Server Error!'
                                     })
@@ -206,11 +197,9 @@ const UpdateUserAvatar = (req, res) => {
 const uploadBackgrondAvatar = (req, res) => {
 
     const upload = generalTools.uploadBackgrondAvatar.single('background_cover');
-    console.log(1);
 
 
     upload(req, res, function (err) {
-        console.log(err);
 
         if (err instanceof multer.MulterError) {
             res.status(500).send('Server Error :/')
@@ -220,7 +209,6 @@ const uploadBackgrondAvatar = (req, res) => {
             res.status(400).send("Bad Request!")
 
         } else {
-            console.log(1);
             User.findByIdAndUpdate(
                 req.session.user._id, {
                     background_cover: `/images/background_cover/${req.file.filename}`
@@ -241,7 +229,6 @@ const uploadBackgrondAvatar = (req, res) => {
                         } else {
                             fs.unlink(path.join(__dirname, '../public', req.session.user.background_cover), err => {
                                 if (err) {
-                                    console.log(400);
                                     res.status(500).json({
                                         msg: 'Server Error!'
                                     })

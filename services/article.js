@@ -121,10 +121,7 @@ const addNewArticle = (req, res) => {
     req.session.article = newArticle;
 
     newArticle.save((err) => {
-        console.log("save article");
         if (err) {
-            console.log("ok baby");
-            console.log(err);
             if (err.code === 11000) {
                 return res.status(400).send("Duplicate item!")
             }
@@ -140,7 +137,6 @@ const addNewArticle = (req, res) => {
 
 // ? ---------------------------------< getMyArticle >---------------------------- 
 const getMyArticle = (req, res) => {
-
     User.findOne({
         _id: req.session.user._id
     }, {
@@ -150,8 +146,7 @@ const getMyArticle = (req, res) => {
         if (err) return res.status(500).json({
             msg: "Server Error :))"
         });
-
-        Article.find({}).skip(parseInt(req.body.page) * parseInt(req.body.limit) - parseInt(req.body.limit)).limit(parseInt(req.body.limit)).populate('owner').sort({
+        Article.find({owner : req.session.user._id }).skip(parseInt(req.body.page) * parseInt(req.body.limit) - parseInt(req.body.limit)).limit(parseInt(req.body.limit)).populate('owner').sort({
             'lastUpdate': -1
         }).exec((err, articles) => {
             if (err) return res.status(500).json({
@@ -163,7 +158,6 @@ const getMyArticle = (req, res) => {
                     msg: "Not Found :("
                 });
             };
-
             res.json({
                 articles
             })
@@ -176,7 +170,6 @@ const getMyArticle = (req, res) => {
 
 // ? ---------------------------------< get one Article >---------------------------- 
 const getOneArticle = (req, res) => {
-    console.log("================> ", req.params.id);
     User.findOne({
         _id: req.session.user._id
     }, {
@@ -346,7 +339,6 @@ console.log(req.body);
 
 
     newComment.save((err) => {
-        console.log("===>", err);
         if (err) {
 
             if (err.code === 11000) {
@@ -363,7 +355,6 @@ console.log(req.body);
 
 const deleteComment = (req, res) => {
   
-        console.log("deleteComment ===>  ",req.params.id);
     Comment.findOneAndDelete({
         _id: req.params.id
     }, (err, comment) => {

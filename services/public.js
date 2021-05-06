@@ -6,7 +6,6 @@ const Article = require(path.join(__dirname, '../models/article'));
 
 const readArticle = (req, res) => {
 
-
     if (!req.session.user) {
         return res.render('article/public/readArticle');
     }
@@ -14,14 +13,35 @@ const readArticle = (req, res) => {
     Article.findById({
         _id: req.params.id
     }, (err, article) => {
-        console.log(err);
+
         if (err) return res.status(500).json({
             msg: "Server Error :))"
         });
 
-        if (req.session.user._id === article.owner || req.session.user.role === "admin") {
-            console.log("admin in");
+
+        if (req.session.user._id == article.owner || req.session.user.role === "admin") {
+    
             res.render('article/readArticle');
+        } else {
+            if (req.session.user) {
+
+                User.findOne({
+                    _id: req.session.user._id
+                }, (err, user) => {
+    
+                    if (err) return res.status(500).json({
+                        msg: "Server Error :))"
+                    });
+                    if (user) {
+                        res.render("article/public/userReadArticle")
+                    }
+    
+    
+                })
+            }else{
+
+                res.render("article/public/readArticle")
+            }
         }
 
 
@@ -38,7 +58,6 @@ const allArticle = (req, res) => {
 }
 // ? ---------------------------------< get All Article >---------------------------- 
 const getAllArticle = (req, res) => {
-    console.log("allArticle========>");
 
     User.findOne({}, (err, user) => {
 
