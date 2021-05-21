@@ -7,7 +7,7 @@ const {
     createUser,
     createAdmin
 
-} = require("../services/Register");
+} = require("../services/register");
 
 
 
